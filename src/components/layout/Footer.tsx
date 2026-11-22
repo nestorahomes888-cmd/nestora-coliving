@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MessageCircle, MapPin, Clock, ShieldCheck, Heart, ArrowUp, Star } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, Clock, ArrowUp, Check } from 'lucide-react';
 import { PROPERTY_DATA } from '../../data/property';
 import { getGeneralEnquiryWhatsAppUrl, getSiteVisitWhatsAppUrl, CALL_PHONE_NUMBER, DISPLAY_PHONE_NUMBER } from '../../utils/whatsapp';
 
@@ -9,24 +9,20 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-charcoal-900 text-cream-200 border-t border-charcoal-700 relative overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-32 bg-gold/5 blur-3xl pointer-events-none" />
-
+    <footer className="bg-stone-950 text-stone-300 border-t border-stone-800">
       {/* Top CTA Banner */}
-      <div className="border-b border-charcoal-700/60 py-12 bg-charcoal-800/40">
+      <div className="border-b border-stone-800 py-10 bg-stone-900/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div>
-              <div className="flex items-center justify-center md:justify-start gap-2 text-gold text-xs font-semibold uppercase tracking-widest mb-2">
-                <Star className="w-4 h-4 fill-gold text-gold" />
-                <span>Premium Coliving Experience</span>
-              </div>
-              <h3 className="font-serif text-2xl sm:text-3xl text-cream-50 font-semibold">
-                Ready to find your ideal home in HSR Layout?
+              <span className="text-xs font-extrabold uppercase tracking-widest text-amber-400">
+                Direct Owner Lease • Zero Brokerage
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                Looking for a room in HSR Layout Sector 1?
               </h3>
-              <p className="text-charcoal-300 text-sm mt-1 max-w-xl">
-                Schedule an in-person walkthrough or chat with our team on WhatsApp for instant availability and booking.
+              <p className="text-stone-400 text-xs sm:text-sm mt-1 max-w-xl">
+                2-Sharing PG at ₹13,000/month or Daily Stays at ₹1,200/day. Walk in today for an in-person tour.
               </p>
             </div>
 
@@ -35,15 +31,15 @@ export const Footer: React.FC = () => {
                 href={getSiteVisitWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-3 rounded-xl bg-gold text-charcoal-900 font-semibold text-sm hover:bg-gold-light transition-all shadow-md hover:shadow-gold-glow flex items-center gap-2"
+                className="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-extrabold text-xs sm:text-sm transition-all shadow-xs"
               >
-                <span>Schedule a Free Site Visit</span>
+                Schedule Site Visit
               </a>
               <a
                 href={`tel:${CALL_PHONE_NUMBER}`}
-                className="px-5 py-3 rounded-xl bg-charcoal-800 text-cream-100 font-semibold text-sm hover:bg-charcoal-700 border border-charcoal-600 transition-all flex items-center gap-2"
+                className="px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-extrabold text-xs sm:text-sm border border-stone-700 transition-all flex items-center gap-2"
               >
-                <Phone className="w-4 h-4 text-gold" />
+                <Phone className="w-4 h-4 text-amber-400" />
                 <span>Call {DISPLAY_PHONE_NUMBER}</span>
               </a>
             </div>
@@ -51,122 +47,84 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Brand info */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-charcoal-800 border border-gold/40 flex items-center justify-center text-gold font-serif text-xl font-bold">
+      {/* Main Links */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Brand Info */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-white text-stone-950 flex items-center justify-center font-bold text-sm">
                 N
               </div>
-              <div>
-                <span className="font-serif text-2xl font-bold tracking-wider text-cream-50">
-                  NESTORA
-                </span>
-                <span className="block text-[10px] uppercase tracking-widest text-gold font-medium">
-                  Coliving Premium Space
-                </span>
-              </div>
+              <span className="font-extrabold text-lg text-white tracking-wide">
+                NESTORA COLIVING
+              </span>
             </div>
-
-            <p className="text-charcoal-300 text-sm leading-relaxed pr-4">
-              {PROPERTY_DATA.brandStory}
+            <p className="text-xs text-stone-400 leading-relaxed">
+              Boutique coliving and premium PG accommodation in Sector 1, HSR Layout, Bengaluru. High-speed Wi-Fi, 4 daily meals, and daily housekeeping.
             </p>
-
-            <div className="pt-2 flex items-center gap-2 text-xs text-charcoal-300">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Direct Owner Managed • Zero Brokerage • Transparent Pricing</span>
+            <div className="text-xs text-emerald-400 flex items-center gap-1.5 pt-1">
+              <Check className="w-3.5 h-3.5" />
+              <span>Zero Brokerage • Move-In Ready</span>
             </div>
           </div>
 
-          {/* Quick Navigation */}
+          {/* Quick Links */}
           <div>
-            <h4 className="font-serif text-cream-50 font-semibold text-base mb-4 tracking-wide">
-              Quick Links
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3">
+              Quick Navigation
             </h4>
-            <ul className="space-y-2.5 text-sm text-charcoal-300">
-              <li>
-                <a href="#home" className="hover:text-gold transition-colors">Home</a>
-              </li>
-              <li>
-                <a href="#rooms" className="hover:text-gold transition-colors">Rooms & Pricing</a>
-              </li>
-              <li>
-                <a href="#amenities" className="hover:text-gold transition-colors">Amenities & Perks</a>
-              </li>
-              <li>
-                <a href="#food" className="hover:text-gold transition-colors">Food & Weekly Menu</a>
-              </li>
-              <li>
-                <a href="#gallery" className="hover:text-gold transition-colors">Photo Gallery</a>
-              </li>
-              <li>
-                <a href="#location" className="hover:text-gold transition-colors">Location & Landmarks</a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-gold transition-colors">Contact & Enquiries</a>
-              </li>
+            <ul className="space-y-2 text-xs text-stone-300">
+              <li><a href="#home" className="hover:text-amber-300 transition-colors">Overview</a></li>
+              <li><a href="#rooms" className="hover:text-amber-300 transition-colors">Rooms & Tariff</a></li>
+              <li><a href="#amenities" className="hover:text-amber-300 transition-colors">Amenities & Perks</a></li>
+              <li><a href="#food" className="hover:text-amber-300 transition-colors">Food & 4-Meal Menu</a></li>
+              <li><a href="#gallery" className="hover:text-amber-300 transition-colors">Photo Gallery</a></li>
+              <li><a href="#location" className="hover:text-amber-300 transition-colors">Location & Commutes</a></li>
+              <li><a href="#contact" className="hover:text-amber-300 transition-colors">Contact Management</a></li>
             </ul>
           </div>
 
-          {/* Accommodation Options */}
+          {/* Tariffs */}
           <div>
-            <h4 className="font-serif text-cream-50 font-semibold text-base mb-4 tracking-wide">
-              Stay Plans
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3">
+              Tariffs & Plans
             </h4>
-            <ul className="space-y-2.5 text-sm text-charcoal-300">
-              <li>
-                <a href="#rooms" className="hover:text-gold transition-colors">Single Sharing (Private)</a>
-              </li>
-              <li>
-                <a href="#rooms" className="hover:text-gold transition-colors">Double Sharing (Twin)</a>
-              </li>
-              <li>
-                <a href="#rooms" className="hover:text-gold transition-colors">Daily Rental Option</a>
-              </li>
-              <li>
-                <a href="#rooms" className="hover:text-gold transition-colors">Weekly Stays</a>
-              </li>
-              <li>
-                <a href="#rooms" className="hover:text-gold transition-colors">Long-Term Monthly Stays</a>
-              </li>
-              <li>
-                <a href="#food" className="hover:text-gold transition-colors">4 Meals Plan Included</a>
-              </li>
+            <ul className="space-y-2 text-xs text-stone-300">
+              <li><span className="text-white font-bold">2 Sharing PG:</span> ₹13,000 / month</li>
+              <li><span className="text-white font-bold">Daily Stay:</span> ₹1,200 / day</li>
+              <li><span className="text-white font-bold">Private Single:</span> ₹22,000 / month</li>
+              <li><span className="text-amber-400">✓ 4 Homely Meals Everyday</span></li>
+              <li><span className="text-amber-400">✓ 300 Mbps Wi-Fi & Housekeeping</span></li>
+              <li><span className="text-amber-400">✓ 100% Power Backup</span></li>
             </ul>
           </div>
 
-          {/* Contact & Address */}
+          {/* Contact Details */}
           <div>
-            <h4 className="font-serif text-cream-50 font-semibold text-base mb-4 tracking-wide">
-              Property Location
+            <h4 className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3">
+              Contact & Address
             </h4>
-            <div className="space-y-3 text-sm text-charcoal-300">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-gold shrink-0 mt-1" />
-                <span className="leading-snug">{PROPERTY_DATA.address.full}</span>
+            <div className="space-y-2.5 text-xs text-stone-300">
+              <div className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span>{PROPERTY_DATA.address.full}</span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-gold shrink-0" />
-                <a href={`tel:${CALL_PHONE_NUMBER}`} className="hover:text-gold transition-colors font-medium">
+              <div className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-amber-400 shrink-0" />
+                <a href={`tel:${CALL_PHONE_NUMBER}`} className="hover:text-amber-300">
                   {DISPLAY_PHONE_NUMBER}
                 </a>
               </div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
-                <a
-                  href={getGeneralEnquiryWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-gold transition-colors"
-                >
+                <a href={getGeneralEnquiryWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="hover:text-amber-300">
                   WhatsApp: +91 70196 44004
                 </a>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-4 h-4 text-gold shrink-0" />
-                <span className="text-xs">{PROPERTY_DATA.workingHours.siteVisit}</span>
+              <div className="flex items-center gap-2 text-stone-400">
+                <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>{PROPERTY_DATA.workingHours.siteVisit}</span>
               </div>
             </div>
           </div>
@@ -174,26 +132,19 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-charcoal-800 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-charcoal-400">
+      <div className="border-t border-stone-850 py-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-stone-500">
           <div>
-            © {new Date().getFullYear()} Nestora Coliving Premium Space. All rights reserved. HSR Layout, Bengaluru.
+            © {new Date().getFullYear()} Nestora Coliving Premium Space. Sector 1, HSR Layout, Bengaluru.
           </div>
-
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1">
-              Crafted with <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline" /> for Bengaluru coliving
-            </span>
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="p-2 rounded-lg bg-charcoal-800 hover:bg-charcoal-700 text-cream-200 transition-colors flex items-center gap-1.5 focus:outline-none"
-              aria-label="Back to top"
-            >
-              <ArrowUp className="w-3.5 h-3.5 text-gold" />
-              <span>Back to Top</span>
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="flex items-center gap-1.5 text-stone-400 hover:text-white transition-colors"
+          >
+            <span>Back to top</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </footer>

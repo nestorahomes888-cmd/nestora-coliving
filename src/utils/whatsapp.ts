@@ -1,5 +1,3 @@
-import { RentalDuration } from '../data/rooms';
-
 export const WHATSAPP_PHONE_NUMBER = "917019644004";
 export const CALL_PHONE_NUMBER = "+917019644004";
 export const DISPLAY_PHONE_NUMBER = "+91 70196 44004";
@@ -13,26 +11,20 @@ export function getWhatsAppUrl(message: string): string {
 }
 
 /**
- * Generate room-specific WhatsApp enquiry link with Room Type + Duration
+ * Generate room enquiry WhatsApp URL
  */
 export function getRoomEnquiryWhatsAppUrl(
   roomName: string,
-  duration: RentalDuration,
-  userMessage?: string
+  planType: 'monthly' | 'daily',
+  tariff: string
 ): string {
-  const durationLabel = 
-    duration === 'daily' ? 'Daily' :
-    duration === 'weekly' ? 'Weekly' : 'Monthly';
+  const planLabel = planType === 'monthly' ? 'Monthly PG Plan' : 'Daily Stay Plan';
 
-  let text = `Hello Nestora Coliving Team,\n\nI am interested in enquiring about accommodation at Nestora Premium Space (HSR Layout):\n\n` +
-    `• Room Type: ${roomName}\n` +
-    `• Preferred Duration: ${durationLabel} Stay\n`;
-
-  if (userMessage && userMessage.trim()) {
-    text += `• Note / Question: ${userMessage.trim()}\n`;
-  }
-
-  text += `\nPlease share current availability, tariff details and procedure to schedule a visit. Thank you!`;
+  const text = `Hello Nestora Coliving Team,\n\nI am interested in booking accommodation at Nestora Premium Space (HSR Layout):\n\n` +
+    `• Room: ${roomName}\n` +
+    `• Plan: ${planLabel} (${tariff})\n` +
+    `• Location: 71, 27th Main Rd, Sector 1, HSR Layout\n\n` +
+    `Please confirm room availability, deposit details, and when I can come for a site visit. Thank you!`;
 
   return getWhatsAppUrl(text);
 }
@@ -44,41 +36,41 @@ export function getContactFormWhatsAppUrl(data: {
   name: string;
   phone: string;
   roomType: string;
-  duration: string;
+  plan: string;
   moveInDate?: string;
   message?: string;
 }): string {
-  let text = `Hello Nestora Coliving Team,\n\nI would like to enquire about staying at Nestora Coliving Premium Space:\n\n` +
+  let text = `Hello Nestora Coliving Team,\n\nNew Booking / Visit Enquiry:\n\n` +
     `• Name: ${data.name}\n` +
-    `• Phone: ${data.phone}\n` +
-    `• Room Preference: ${data.roomType}\n` +
-    `• Stay Duration: ${data.duration}\n`;
+    `• Mobile: ${data.phone}\n` +
+    `• Preference: ${data.roomType}\n` +
+    `• Plan Type: ${data.plan}\n`;
 
   if (data.moveInDate) {
-    text += `• Tentative Move-in Date: ${data.moveInDate}\n`;
+    text += `• Move-in Date: ${data.moveInDate}\n`;
   }
 
   if (data.message && data.message.trim()) {
-    text += `• Additional Message: ${data.message.trim()}\n`;
+    text += `• Note: ${data.message.trim()}\n`;
   }
 
-  text += `\nPlease let me know the current status and booking steps.`;
+  text += `\nPlease share current availability and procedure to book.`;
 
   return getWhatsAppUrl(text);
 }
 
 /**
- * Generate general enquiry link
+ * Generate quick general enquiry link
  */
 export function getGeneralEnquiryWhatsAppUrl(): string {
-  const text = `Hello Nestora Coliving Team,\n\nI came across your website and would like to know more about room availability and pricing at Nestora Coliving, HSR Layout Sector 1.\n\nPlease share the details.`;
+  const text = `Hello Nestora Coliving Team,\n\nI would like to enquire about room availability and tariffs at Nestora Coliving in HSR Layout Sector 1.\n\nPlease share the details.`;
   return getWhatsAppUrl(text);
 }
 
 /**
- * Generate site visit scheduling link
+ * Schedule site visit link
  */
 export function getSiteVisitWhatsAppUrl(): string {
-  const text = `Hello Nestora Coliving Team,\n\nI would like to schedule an in-person site visit / property tour of Nestora Coliving in HSR Layout.\n\nPlease let me know suitable visiting hours.`;
+  const text = `Hello Nestora Coliving Team,\n\nI would like to schedule an in-person site visit to view the rooms at Nestora Coliving (HSR Layout Sector 1).\n\nPlease let me know available slots today.`;
   return getWhatsAppUrl(text);
 }

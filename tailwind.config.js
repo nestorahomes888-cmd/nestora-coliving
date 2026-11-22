@@ -7,57 +7,42 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: {
-          50: '#FAF8F5',
-          100: '#F5F1EB',
-          200: '#ECE5DB',
-          300: '#DFD5C7',
-          400: '#CEC0AD',
-          500: '#B8A68F',
+        stone: {
+          50: '#FAF9F6',
+          100: '#F4F2EC',
+          200: '#EBE7DF',
+          300: '#DDD7CC',
+          400: '#C2B9A7',
+          500: '#9E937E',
+          600: '#7B715E',
+          700: '#595142',
+          800: '#383228',
+          900: '#1C1917',
+          950: '#0F0E0D',
         },
-        charcoal: {
-          900: '#131312',
-          800: '#1C1B1A',
-          700: '#272624',
-          600: '#3A3835',
-          500: '#524F4B',
-          400: '#736F69',
-          300: '#9E9991',
+        amber: {
+          600: '#D97706',
+          700: '#B45309',
+          800: '#92400E',
         },
-        gold: {
-          DEFAULT: '#C5A880',
-          light: '#DFC7A7',
-          dark: '#A6875D',
-          hover: '#B5966E',
-        },
-        earth: {
-          light: '#8C7E72',
-          DEFAULT: '#6B5E53',
-          dark: '#4A3F36',
-        },
-        olive: {
-          DEFAULT: '#525B44',
-          light: '#6E795B',
+        brand: {
+          gold: '#C5A880',
+          'gold-light': '#DFCAA8',
+          'gold-dark': '#9A7B54',
+          dark: '#1C1917',
+          light: '#FAF9F6',
+          card: '#FFFFFF',
+          border: '#E7E2D8',
         }
       },
       fontFamily: {
+        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
         serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 4px 20px -2px rgba(19, 19, 18, 0.05)',
-        'medium': '0 10px 30px -4px rgba(19, 19, 18, 0.08)',
-        'elevated': '0 20px 40px -6px rgba(19, 19, 18, 0.12)',
-        'gold-glow': '0 0 25px rgba(197, 168, 128, 0.25)',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-out forwards',
+        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
+        'card': '0 4px 20px -2px rgba(28, 25, 23, 0.06)',
+        'elevated': '0 12px 35px -5px rgba(28, 25, 23, 0.1)',
       },
     },
   },
