@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { MobileStickyBar } from './components/layout/MobileStickyBar';
@@ -13,7 +12,7 @@ import { ContactSection } from './components/sections/ContactSection';
 
 export function App() {
   return (
-    <div className="min-h-screen bg-cream-50 text-charcoal-800 flex flex-col font-sans selection:bg-gold/30 selection:text-charcoal-900 pb-16 md:pb-0">
+    <div className="min-h-screen bg-stone-50 text-stone-900 flex flex-col font-sans selection:bg-amber-200 selection:text-stone-900 pb-28 md:pb-0 overflow-x-hidden">
       {/* Sticky Top Navbar */}
       <Navbar />
 

@@ -25,28 +25,28 @@ export const AmenitiesSection: React.FC = () => {
     : AMENITIES_DATA.filter((item) => item.category === activeCategory);
 
   return (
-    <section id="amenities" className="py-20 lg:py-28 bg-stone-50">
+    <section id="amenities" className="py-16 sm:py-24 bg-stone-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-amber-800">
             Included with Every Stay
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight mt-1.5">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight mt-1">
             Thoughtfully Curated Amenities
           </h2>
-          <p className="mt-3 text-base text-stone-600 leading-relaxed font-normal">
-            Everything you need for productive, comfortable coliving in Bengaluru. All amenities are covered under your monthly or daily rent with no extra charge.
+          <p className="mt-2 text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+            Everything you need for productive, comfortable coliving in Bengaluru. All amenities are covered under your rent with zero extra bills.
           </p>
 
-          {/* Filter Pills */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-1.5">
+          {/* Swipeable Filter Pills on Mobile */}
+          <div className="mt-6 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 px-1 sm:justify-center">
             {AMENITIES_CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+                className={`px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all shrink-0 whitespace-nowrap ${
                   activeCategory === cat.id
                     ? 'bg-stone-900 text-white shadow-xs'
                     : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-100'
@@ -58,56 +58,56 @@ export const AmenitiesSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Amenities Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Amenities Cards Grid - 2 cols on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
           {filteredAmenities.map((item) => (
             <div
               key={item.id}
-              className="p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-card hover:border-amber-300 transition-all flex flex-col justify-between"
+              className="p-4 sm:p-6 rounded-2xl bg-white border border-stone-200 shadow-2xs hover:shadow-card transition-all flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-xl bg-stone-100 flex items-center justify-center text-amber-800">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center text-amber-800">
                     <AmenityIcon name={item.icon} />
                   </div>
                   {item.badge && (
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
+                    <span className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
                       {item.badge}
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-base font-extrabold text-stone-900 mb-1.5">
+                <h3 className="text-sm sm:text-base font-extrabold text-stone-900 mb-1">
                   {item.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                <p className="text-xs text-stone-600 leading-relaxed">
                   {item.description}
                 </p>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-stone-100 flex items-center gap-1.5 text-xs text-emerald-700 font-semibold">
-                <Check className="w-3.5 h-3.5" />
+              <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center gap-1.5 text-[11px] text-emerald-700 font-semibold">
+                <Check className="w-3 h-3" />
                 <span>Zero surcharge • All inclusive</span>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Value Callout Banner */}
-        <div className="mt-14 p-6 sm:p-8 rounded-3xl bg-amber-50/80 border border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-1">
-            <h4 className="text-lg font-extrabold text-amber-950">
+        {/* Mobile-Friendly Callout Banner */}
+        <div className="mt-10 sm:mt-14 p-5 sm:p-7 rounded-3xl bg-amber-50/80 border border-amber-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <h4 className="text-base sm:text-lg font-extrabold text-amber-950">
               Looking for a hassle-free PG in HSR Layout?
             </h4>
-            <p className="text-xs sm:text-sm text-amber-900/80">
-              Move in with your laptop and suitcase. We take care of food, Wi-Fi, electricity, housekeeping, and laundry.
+            <p className="text-xs text-amber-900/80">
+              Move in with your laptop and suitcase. We take care of food, Wi-Fi, power backup, and housekeeping.
             </p>
           </div>
           <a
             href={getGeneralEnquiryWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs sm:text-sm whitespace-nowrap shadow-xs"
+            className="w-full sm:w-auto px-5 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 active:bg-stone-950 text-white font-bold text-xs sm:text-sm text-center whitespace-nowrap shadow-xs"
           >
             Schedule a Visit Today
           </a>

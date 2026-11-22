@@ -5,9 +5,6 @@ import {
   MessageCircle, 
   Phone, 
   UtensilsCrossed, 
-  Wifi, 
-  Sparkles, 
-  ShieldCheck, 
   Bath, 
   Laptop, 
   DoorClosed, 
@@ -20,58 +17,64 @@ export const RoomsSection: React.FC = () => {
   const [activePlan, setActivePlan] = useState<'monthly' | 'daily'>('monthly');
 
   return (
-    <section id="rooms" className="py-20 lg:py-28 bg-stone-100/70 border-y border-stone-200">
+    <section id="rooms" className="py-16 sm:py-24 bg-stone-100/70 border-y border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs font-extrabold uppercase tracking-widest text-amber-800">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-amber-800">
             Transparent Pricing • Zero Brokerage
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight mt-1.5">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight mt-1">
             Rooms & Rental Plans
           </h2>
-          <p className="mt-3 text-base text-stone-600 leading-relaxed font-normal">
-            Direct owner lease with all-inclusive pricing. Whether you need a long-term monthly PG stay or a flexible daily stay in HSR Layout, everything is covered.
+          <p className="mt-2.5 text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+            Direct owner lease in HSR Layout Sector 1. Choose between long-term monthly PG living or flexible daily stays.
           </p>
 
-          {/* Plan Duration Switcher */}
-          <div className="mt-8 inline-flex p-1.5 rounded-2xl bg-white border border-stone-300 shadow-xs">
+          {/* Plan Duration Switcher - Mobile Optimized */}
+          <div className="mt-6 inline-flex p-1 rounded-2xl bg-white border border-stone-300 shadow-xs max-w-full">
             <button
               type="button"
               onClick={() => setActivePlan('monthly')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all ${
                 activePlan === 'monthly'
                   ? 'bg-stone-900 text-white shadow-xs'
-                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-50'
+                  : 'text-stone-700 hover:text-stone-900'
               }`}
             >
-              Monthly PG Plans (from ₹13,000/mo)
+              <span className="hidden sm:inline">Monthly PG (₹13,000/mo)</span>
+              <span className="sm:hidden">Monthly (₹13,000)</span>
             </button>
             <button
               type="button"
               onClick={() => setActivePlan('daily')}
-              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              className={`px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all ${
                 activePlan === 'daily'
                   ? 'bg-stone-900 text-white shadow-xs'
-                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-50'
+                  : 'text-stone-700 hover:text-stone-900'
               }`}
             >
-              Daily Stays (from ₹1,200/day)
+              <span className="hidden sm:inline">Daily Stay (₹1,200/day)</span>
+              <span className="sm:hidden">Daily (₹1,200)</span>
             </button>
           </div>
         </div>
 
         {/* Room Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
           {ROOMS_DATA.map((room) => {
             const pricing = activePlan === 'monthly' ? room.monthlyRent : room.dailyRent;
             const isTwoSharing = room.id === 'double-sharing-pg';
-            const whatsappUrl = getRoomEnquiryWhatsAppUrl(room.name, activePlan, `${pricing.formatted} ${pricing.period}`);
+            const whatsappUrl = getRoomEnquiryWhatsAppUrl(
+              room.name, 
+              activePlan, 
+              `${pricing.formatted} ${pricing.period}`
+            );
 
             return (
               <div
                 key={room.id}
-                className={`bg-white rounded-3xl border transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-card hover:shadow-elevated ${
+                className={`bg-white rounded-3xl border transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-card ${
                   isTwoSharing ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-stone-200'
                 }`}
               >
@@ -87,95 +90,95 @@ export const RoomsSection: React.FC = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-black/20" />
 
                     {/* Badge */}
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-stone-900/90 text-white border border-white/20 backdrop-blur-xs">
+                    <div className="absolute top-3 left-3">
+                      <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-stone-900/90 text-white border border-white/20 backdrop-blur-xs">
                         {room.badge}
                       </span>
                     </div>
 
                     {/* Occupancy Tag */}
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white text-xs font-medium">
-                      <div className="flex items-center gap-1.5 bg-stone-900/80 px-3 py-1.5 rounded-lg backdrop-blur-xs border border-white/10">
-                        <Users className="w-3.5 h-3.5 text-amber-300" />
+                    <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs font-medium">
+                      <div className="flex items-center gap-1.5 bg-stone-900/80 px-2.5 py-1 rounded-lg backdrop-blur-xs border border-white/10 text-[11px]">
+                        <Users className="w-3 h-3 text-amber-300" />
                         <span>{room.occupancyLabel}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-6 sm:p-8 space-y-6">
+                  <div className="p-5 sm:p-7 space-y-4 sm:space-y-5">
                     {/* Header & Price Banner */}
-                    <div className="pb-4 border-b border-stone-200">
-                      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                    <div className="pb-3 border-b border-stone-200">
+                      <div className="flex flex-col xs:flex-row xs:items-baseline justify-between gap-1">
                         <div>
-                          <div className="text-xs font-bold uppercase tracking-wider text-amber-800">
+                          <div className="text-[11px] font-bold uppercase tracking-wider text-amber-800">
                             {room.tagline}
                           </div>
-                          <h3 className="text-2xl font-extrabold text-stone-900 mt-0.5">
+                          <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 mt-0.5">
                             {room.name}
                           </h3>
                         </div>
 
                         {/* Price Callout */}
-                        <div className="sm:text-right">
+                        <div className="xs:text-right mt-1 xs:mt-0">
                           <div className="flex items-baseline gap-1">
-                            <span className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+                            <span className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
                               {pricing.formatted}
                             </span>
                             <span className="text-xs text-stone-500 font-semibold">
                               {pricing.period}
                             </span>
                           </div>
-                          <div className="text-[11px] text-stone-500 mt-0.5">
+                          <div className="text-[10px] text-stone-500 mt-0.5">
                             {pricing.subtext}
                           </div>
                         </div>
                       </div>
                     </div>
 
-                    {/* All-Inclusive Strip */}
-                    <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-amber-950 text-xs font-semibold flex items-center gap-2">
+                    {/* Inclusions Strip */}
+                    <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 text-amber-950 text-xs font-semibold flex items-center gap-2">
                       <UtensilsCrossed className="w-4 h-4 text-amber-700 shrink-0" />
-                      <span>Includes: 4 Meals Daily (Breakfast, Lunch, Snacks & Dinner) + Wi-Fi</span>
+                      <span>Includes: 4 Meals Daily (Breakfast, Lunch, Snacks, Dinner) + 300 Mbps Wi-Fi</span>
                     </div>
 
                     {/* In-Room Facilities Grid */}
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-3">
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-2">
                         Room Amenities
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-                        <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
+                        <div className="p-2 rounded-xl bg-stone-50 border border-stone-200/80">
                           <Bath className="w-4 h-4 mx-auto text-amber-700 mb-1" />
-                          <span className="font-semibold text-stone-800">Attached Bath</span>
+                          <span className="font-semibold text-stone-800 text-[11px]">Attached Bath</span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
+                        <div className="p-2 rounded-xl bg-stone-50 border border-stone-200/80">
                           <Laptop className="w-4 h-4 mx-auto text-amber-700 mb-1" />
-                          <span className="font-semibold text-stone-800">Study Desk</span>
+                          <span className="font-semibold text-stone-800 text-[11px]">Study Desk</span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
+                        <div className="p-2 rounded-xl bg-stone-50 border border-stone-200/80">
                           <DoorClosed className="w-4 h-4 mx-auto text-amber-700 mb-1" />
-                          <span className="font-semibold text-stone-800">Lockable Closet</span>
+                          <span className="font-semibold text-stone-800 text-[11px]">Lockable Wardrobe</span>
                         </div>
-                        <div className="p-2.5 rounded-xl bg-stone-50 border border-stone-200/80">
+                        <div className="p-2 rounded-xl bg-stone-50 border border-stone-200/80">
                           <Flame className="w-4 h-4 mx-auto text-amber-700 mb-1" />
-                          <span className="font-semibold text-stone-800">24/7 Geyser</span>
+                          <span className="font-semibold text-stone-800 text-[11px]">24/7 Geyser</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Highlights Checklist */}
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-wider text-stone-400 mb-2.5">
-                        What's Included
+                      <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-2">
+                        Included Features
                       </div>
-                      <div className="space-y-2 text-xs text-stone-700">
-                        {room.highlights.map((point, idx) => (
-                          <div key={idx} className="flex items-start gap-2.5">
-                            <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                              <Check className="w-3 h-3 stroke-[3]" />
+                      <div className="space-y-1.5 text-xs text-stone-700">
+                        {room.highlights.slice(0, 5).map((point, idx) => (
+                          <div key={idx} className="flex items-start gap-2">
+                            <span className="w-3.5 h-3.5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                              <Check className="w-2.5 h-2.5 stroke-[3]" />
                             </span>
-                            <span className="leading-tight">{point}</span>
+                            <span className="leading-tight text-[11px] sm:text-xs">{point}</span>
                           </div>
                         ))}
                       </div>
@@ -183,23 +186,23 @@ export const RoomsSection: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Card Footer Actions */}
-                <div className="p-6 sm:p-8 pt-0 space-y-2.5">
+                {/* Card Footer Actions - Compact for Mobile */}
+                <div className="p-5 sm:p-7 pt-0 space-y-2">
                   <a
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2 group"
+                    className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2"
                   >
                     <MessageCircle className="w-4 h-4 text-white" />
-                    <span>Book {room.name} ({pricing.formatted}) on WhatsApp</span>
+                    <span>Book on WhatsApp • {pricing.formatted}</span>
                   </a>
 
                   <a
                     href={`tel:${CALL_PHONE_NUMBER}`}
                     className="w-full py-2.5 px-4 rounded-xl bg-stone-50 hover:bg-stone-100 text-stone-800 font-bold text-xs border border-stone-300 transition-colors flex items-center justify-center gap-2"
                   >
-                    <Phone className="w-3.5 h-3.5 text-stone-700" />
+                    <Phone className="w-3 h-3 text-stone-700" />
                     <span>Call Host for Immediate Move-in</span>
                   </a>
                 </div>
@@ -209,47 +212,41 @@ export const RoomsSection: React.FC = () => {
         </div>
 
         {/* Pricing Transparency Summary Box */}
-        <div className="mt-12 p-6 sm:p-8 rounded-3xl bg-stone-900 text-white shadow-card">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div className="mt-8 sm:mt-12 p-5 sm:p-7 rounded-3xl bg-stone-900 text-white shadow-card">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-center">
             <div>
-              <span className="text-xs uppercase font-extrabold tracking-widest text-amber-400">
-                Summary of Tariffs
+              <span className="text-[10px] uppercase font-extrabold tracking-widest text-amber-400">
+                Official Tariffs
               </span>
-              <h3 className="text-xl font-extrabold text-white mt-1">
+              <h3 className="text-lg sm:text-xl font-extrabold text-white mt-0.5">
                 Nestora HSR Rate Card
               </h3>
-              <p className="text-xs text-stone-300 mt-1">
-                Clear tariffs with no hidden maintenance fees or surprise utility bills.
+              <p className="text-xs text-stone-400 mt-1">
+                Zero brokerage • Low deposit • 4 meals included daily
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 border-y md:border-y-0 md:border-x border-stone-800 py-4 md:py-0 md:px-6">
+            <div className="grid grid-cols-2 gap-3 border-y md:border-y-0 md:border-x border-stone-800 py-3 md:py-0 md:px-5">
               <div>
-                <div className="text-[11px] text-stone-400 uppercase font-semibold">2 Sharing PG (Monthly)</div>
-                <div className="text-2xl font-extrabold text-amber-300 mt-0.5">₹13,000</div>
+                <div className="text-[10px] text-stone-400 uppercase font-semibold">2 Sharing PG (Monthly)</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">₹13,000</div>
                 <div className="text-[10px] text-stone-400">per person with 4 meals</div>
               </div>
               <div>
-                <div className="text-[11px] text-stone-400 uppercase font-semibold">Daily Stay (Short-term)</div>
-                <div className="text-2xl font-extrabold text-amber-300 mt-0.5">₹1,200</div>
+                <div className="text-[10px] text-stone-400 uppercase font-semibold">Daily Stay (Short-term)</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">₹1,200</div>
                 <div className="text-[10px] text-stone-400">per day with meals</div>
               </div>
             </div>
 
-            <div className="flex flex-col items-start md:items-end justify-center">
-              <div className="text-xs text-stone-300 space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Zero Brokerage (Direct Owner)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Low Security Deposit</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Walking distance to 27th Main</span>
-                </div>
+            <div className="flex flex-col items-start md:items-end justify-center text-xs text-stone-300 space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Zero Brokerage (Direct Owner)</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Walking distance to 27th Main</span>
               </div>
             </div>
           </div>
