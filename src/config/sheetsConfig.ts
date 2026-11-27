@@ -3,20 +3,14 @@
  * NESTORA COLIVING — GOOGLE SHEETS CMS CONFIGURATION
  * ============================================================================
  * 
- * The owner can edit:
- * 1. Room Tariffs (2-Sharing PG ₹13,000/mo, Daily ₹1,200/day) & Room Photos
- * 2. Food Menu Photo (Owner snaps photo of weekly menu board & pastes link)
- * 3. Amenities List (Add or remove amenities)
- * 4. Photo Gallery (Paste Google Drive or direct photo links)
- * 5. Contact Info (Phone, WhatsApp, Address)
- * 
- * Paste your Google Sheet ID into `sheetId` below:
+ * Connected to the user's active Google Sheet:
+ * https://docs.google.com/spreadsheets/d/1DuUf_Nr6YcBtnOg31yfx3OZVcw5mqORdsfVFFav8lM/edit
  * ============================================================================
  */
 
 export const SHEETS_CONFIG = {
-  // Replace with the owner's Google Sheet ID:
-  sheetId: "",
+  // Connected Sheet ID from user's Google Sheet:
+  sheetId: "1DuUf_Nr6YcBtnOg31yfx3OZVcw5mqORdsfVFFav8lM",
 
   // Tab names in Google Sheet:
   tabs: {
