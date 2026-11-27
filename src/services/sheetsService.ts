@@ -4,31 +4,21 @@ import { GALLERY_DATA, GalleryImage } from '../data/gallery';
 import { AMENITIES_DATA, AmenityItem } from '../data/amenities';
 import { PROPERTY_DATA, PropertyInfo } from '../data/property';
 
-/**
- * Default fallback weekly menu board photo if owner hasn't added one yet
- */
 export const DEFAULT_MENU_PHOTO = "https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=1400&q=80";
 
-/**
- * Converts Google Drive sharing links into direct high-speed image URLs
- */
 export function normalizeImageUrl(url: string): string {
   if (!url) return '';
   const cleanUrl = url.trim();
 
-  // If already a standard image URL or local path
   if (cleanUrl.startsWith('/') || cleanUrl.includes('images.unsplash.com')) {
     return cleanUrl;
   }
 
-  // Handle Google Drive file links
-  // e.g. https://drive.google.com/file/d/1A2B3C.../view?usp=sharing
   const driveFileMatch = cleanUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (driveFileMatch && driveFileMatch[1]) {
     return `https://drive.google.com/thumbnail?id=${driveFileMatch[1]}&sz=w1600`;
   }
 
-  // e.g. https://drive.google.com/open?id=1A2B3C...
   const driveIdMatch = cleanUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
   if (driveIdMatch && driveIdMatch[1]) {
     return `https://drive.google.com/thumbnail?id=${driveIdMatch[1]}&sz=w1600`;
@@ -37,9 +27,6 @@ export function normalizeImageUrl(url: string): string {
   return cleanUrl;
 }
 
-/**
- * Robust CSV parser that correctly handles quoted values with commas & line breaks
- */
 function parseCSV(text: string): string[][] {
   const result: string[][] = [];
   let row: string[] = [];
@@ -53,7 +40,7 @@ function parseCSV(text: string): string[][] {
     if (char === '"') {
       if (insideQuotes && nextChar === '"') {
         currentVal += '"';
-        i++; // skip escaped quote
+        i++;
       } else {
         insideQuotes = !insideQuotes;
       }
@@ -62,7 +49,7 @@ function parseCSV(text: string): string[][] {
       currentVal = '';
     } else if ((char === '\r' || char === '\n') && !insideQuotes) {
       if (char === '\r' && nextChar === '\n') {
-        i++; // skip \r\n
+        i++;
       }
       row.push(currentVal.trim());
       if (row.some(cell => cell.length > 0)) {
@@ -85,9 +72,6 @@ function parseCSV(text: string): string[][] {
   return result;
 }
 
-/**
- * Fetch raw CSV string for a specific sheet tab
- */
 async function fetchSheetCSV(sheetId: string, sheetName: string): Promise<string[][] | null> {
   try {
     const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
@@ -96,14 +80,10 @@ async function fetchSheetCSV(sheetId: string, sheetName: string): Promise<string
     const csvText = await response.text();
     return parseCSV(csvText);
   } catch (error) {
-    console.warn(`[Google Sheets] Could not fetch tab "${sheetName}":`, error);
     return null;
   }
 }
 
-/**
- * Fetch and merge live Google Sheet data with static defaults
- */
 export async function fetchLiveContent(): Promise<{
   rooms: RoomPlan[];
   amenities: AmenityItem[];
@@ -114,7 +94,6 @@ export async function fetchLiveContent(): Promise<{
 }> {
   const sheetId = SHEETS_CONFIG.sheetId.trim();
 
-  // If no sheet ID configured yet, return built-in defaults immediately
   if (!sheetId) {
     return {
       rooms: ROOMS_DATA,
@@ -127,22 +106,29 @@ export async function fetchLiveContent(): Promise<{
   }
 
   try {
-    // Fetch all tabs in parallel
-    const [settingsRows, pricingRows, amenitiesRows, galleryRows] = await Promise.all([
+    // Try primary sheet names and also fallback to Sheet1 for pricing if needed
+    let [settingsRows, pricingRows, amenitiesRows, galleryRows] = await Promise.all([
       fetchSheetCSV(sheetId, SHEETS_CONFIG.tabs.settings),
       fetchSheetCSV(sheetId, SHEETS_CONFIG.tabs.pricing),
       fetchSheetCSV(sheetId, SHEETS_CONFIG.tabs.amenities),
       fetchSheetCSV(sheetId, SHEETS_CONFIG.tabs.gallery)
     ]);
 
-    // 1. Process Settings / Contact / Menu Photo
+    // If "Pricing" tab wasn't found, check "Sheet1"
+    if (!pricingRows || pricingRows.length <= 1) {
+      const sheet1Rows = await fetchSheetCSV(sheetId, "Sheet1");
+      if (sheet1Rows && sheet1Rows.length > 1) {
+        pricingRows = sheet1Rows;
+      }
+    }
+
+    // 1. Process Settings
     let updatedProperty = { ...PROPERTY_DATA };
     let updatedMenuPhoto = DEFAULT_MENU_PHOTO;
 
     if (settingsRows && settingsRows.length > 1) {
       const dataRows = settingsRows.slice(1);
       dataRows.forEach(row => {
-        // Expected columns: [Phone, WhatsApp, Address, MenuPhotoURL, GoogleRating, TotalReviews]
         const phone = row[0]?.trim();
         const whatsapp = row[1]?.trim();
         const address = row[2]?.trim();
@@ -177,7 +163,6 @@ export async function fetchLiveContent(): Promise<{
     if (pricingRows && pricingRows.length > 1) {
       const dataRows = pricingRows.slice(1);
       dataRows.forEach(row => {
-        // Expected columns: [RoomID, RoomName, MonthlyRent, DailyRent, ImageURL, Badge]
         const id = (row[0] || '').toLowerCase().trim();
         const monthly = row[2]?.trim();
         const daily = row[3]?.trim();
@@ -234,7 +219,6 @@ export async function fetchLiveContent(): Promise<{
       const parsedAmenities: AmenityItem[] = [];
 
       dataRows.forEach((row, idx) => {
-        // Expected columns: [Name, Description, Category, Badge]
         const name = row[0]?.trim();
         const description = row[1]?.trim() || '';
         const category = (row[2]?.toLowerCase().trim() || 'essentials') as AmenityItem['category'];
@@ -259,14 +243,13 @@ export async function fetchLiveContent(): Promise<{
       }
     }
 
-    // 4. Process Gallery Photos
+    // 4. Process Gallery
     let updatedGallery = [...GALLERY_DATA];
     if (galleryRows && galleryRows.length > 1) {
       const dataRows = galleryRows.slice(1);
       const parsedImages: GalleryImage[] = [];
 
       dataRows.forEach((row, idx) => {
-        // Expected columns: [Title, Category, ImageURL, Caption]
         const title = row[0]?.trim();
         const category = (row[1]?.toLowerCase().trim() || 'common') as GalleryImage['category'];
         const src = normalizeImageUrl(row[2] || '');
@@ -302,7 +285,6 @@ export async function fetchLiveContent(): Promise<{
       isLive: true
     };
   } catch (error) {
-    console.error("[Google Sheets] Live sync error. Using local fallbacks:", error);
     return {
       rooms: ROOMS_DATA,
       amenities: AMENITIES_DATA,
@@ -314,9 +296,6 @@ export async function fetchLiveContent(): Promise<{
   }
 }
 
-/**
- * Helper to select an icon based on amenity name
- */
 function guessIcon(name: string): string {
   const lower = name.toLowerCase();
   if (lower.includes('meal') || lower.includes('food') || lower.includes('dining')) return 'UtensilsCrossed';
