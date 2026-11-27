@@ -1,15 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { RoomPlan, ROOMS_DATA } from '../data/rooms';
 import { GalleryImage, GALLERY_DATA } from '../data/gallery';
-import { DayMenu, WEEKLY_MENU_DATA } from '../data/foodMenu';
+import { AmenityItem, AMENITIES_DATA } from '../data/amenities';
 import { PropertyInfo, PROPERTY_DATA } from '../data/property';
-import { fetchLiveContent } from '../services/sheetsService';
+import { fetchLiveContent, DEFAULT_MENU_PHOTO } from '../services/sheetsService';
 import { SHEETS_CONFIG } from '../config/sheetsConfig';
 
 interface PropertyContextType {
   rooms: RoomPlan[];
+  amenities: AmenityItem[];
   gallery: GalleryImage[];
-  menu: DayMenu[];
+  menuPhotoUrl: string;
   property: PropertyInfo;
   isLive: boolean;
   isLoading: boolean;
@@ -18,8 +19,9 @@ interface PropertyContextType {
 
 const PropertyContext = createContext<PropertyContextType>({
   rooms: ROOMS_DATA,
+  amenities: AMENITIES_DATA,
   gallery: GALLERY_DATA,
-  menu: WEEKLY_MENU_DATA,
+  menuPhotoUrl: DEFAULT_MENU_PHOTO,
   property: PROPERTY_DATA,
   isLive: false,
   isLoading: false,
@@ -28,8 +30,9 @@ const PropertyContext = createContext<PropertyContextType>({
 
 export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [rooms, setRooms] = useState<RoomPlan[]>(ROOMS_DATA);
+  const [amenities, setAmenities] = useState<AmenityItem[]>(AMENITIES_DATA);
   const [gallery, setGallery] = useState<GalleryImage[]>(GALLERY_DATA);
-  const [menu, setMenu] = useState<DayMenu[]>(WEEKLY_MENU_DATA);
+  const [menuPhotoUrl, setMenuPhotoUrl] = useState<string>(DEFAULT_MENU_PHOTO);
   const [property, setProperty] = useState<PropertyInfo>(PROPERTY_DATA);
   const [isLive, setIsLive] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -41,8 +44,9 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try {
       const data = await fetchLiveContent();
       setRooms(data.rooms);
+      setAmenities(data.amenities);
       setGallery(data.gallery);
-      setMenu(data.menu);
+      setMenuPhotoUrl(data.menuPhotoUrl);
       setProperty(data.property);
       setIsLive(data.isLive);
     } catch (e) {
@@ -60,8 +64,9 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     <PropertyContext.Provider
       value={{
         rooms,
+        amenities,
         gallery,
-        menu,
+        menuPhotoUrl,
         property,
         isLive,
         isLoading,

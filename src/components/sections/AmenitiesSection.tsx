@@ -14,15 +14,17 @@ import {
   MoveVertical,
   Check
 } from 'lucide-react';
-import { AMENITIES_DATA, AMENITIES_CATEGORIES } from '../../data/amenities';
+import { usePropertyData } from '../../context/PropertyContext';
+import { AMENITIES_CATEGORIES } from '../../data/amenities';
 import { getGeneralEnquiryWhatsAppUrl } from '../../utils/whatsapp';
 
 export const AmenitiesSection: React.FC = () => {
+  const { amenities } = usePropertyData();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const filteredAmenities = activeCategory === 'all'
-    ? AMENITIES_DATA
-    : AMENITIES_DATA.filter((item) => item.category === activeCategory);
+    ? amenities
+    : amenities.filter((item) => item.category === activeCategory);
 
   return (
     <section id="amenities" className="py-16 sm:py-24 bg-stone-50">
@@ -58,7 +60,7 @@ export const AmenitiesSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Amenities Cards Grid - 2 cols on mobile */}
+        {/* Amenities Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
           {filteredAmenities.map((item) => (
             <div

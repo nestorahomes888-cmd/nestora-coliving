@@ -1,33 +1,31 @@
 /**
  * ============================================================================
- * NESTORA COLIVING — GOOGLE SHEETS LIVE CMS CONFIGURATION
+ * NESTORA COLIVING — GOOGLE SHEETS CMS CONFIGURATION
  * ============================================================================
  * 
- * HOW TO CONNECT YOUR GOOGLE SHEET:
- * 1. Create a Google Sheet (using the template columns provided in the guide).
- * 2. Click "Share" (top-right of your sheet) -> change General access to
- *    "Anyone with the link can view".
- * 3. Copy the Sheet ID from the URL:
- *    https://docs.google.com/spreadsheets/d/PASTE_THIS_ID_HERE/edit
- * 4. Paste that ID below into `GOOGLE_SHEET_ID`.
+ * The owner can edit:
+ * 1. Room Tariffs (2-Sharing PG ₹13,000/mo, Daily ₹1,200/day) & Room Photos
+ * 2. Food Menu Photo (Owner snaps photo of weekly menu board & pastes link)
+ * 3. Amenities List (Add or remove amenities)
+ * 4. Photo Gallery (Paste Google Drive or direct photo links)
+ * 5. Contact Info (Phone, WhatsApp, Address)
  * 
- * If left blank, the website automatically uses the built-in fallback data
- * in `src/data/`, so the website NEVER breaks.
+ * Paste your Google Sheet ID into `sheetId` below:
  * ============================================================================
  */
 
 export const SHEETS_CONFIG = {
-  // Replace with your Google Sheet ID when ready:
+  // Replace with the owner's Google Sheet ID:
   sheetId: "",
-  
-  // Tab names in your Google Sheet (must match exactly)
+
+  // Tab names in Google Sheet:
   tabs: {
-    pricing: "Pricing",
-    gallery: "Gallery",
-    menu: "Menu",
-    contact: "Contact"
+    settings: "Settings",   // Phone, WhatsApp, Address, MenuPhotoURL
+    pricing: "Pricing",     // Rooms, monthly rent, daily rent, room photos
+    amenities: "Amenities", // List of amenities & descriptions
+    gallery: "Gallery"      // Property photos & captions
   },
 
-  // Cache duration in minutes before refetching fresh data (saves bandwidth)
+  // Cache duration in minutes before background refresh
   cacheMinutes: 5,
 };

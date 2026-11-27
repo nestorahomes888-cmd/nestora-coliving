@@ -1,32 +1,54 @@
 import React, { useState } from 'react';
 import { 
-  CalendarDays,
+  UtensilsCrossed, 
   Clock, 
   Check, 
+  Maximize2, 
+  X, 
   MessageCircle,
-  Soup,
-  Salad,
-  ShieldAlert,
-  Flame,
-  UtensilsCrossed
+  Sun,
+  Utensils,
+  Coffee,
+  Moon,
+  Sparkles
 } from 'lucide-react';
 import { usePropertyData } from '../../context/PropertyContext';
-import { FOOD_FEATURES, DayMenu, MealSlot } from '../../data/foodMenu';
 import { getGeneralEnquiryWhatsAppUrl } from '../../utils/whatsapp';
 
 export const FoodSection: React.FC = () => {
-  const { menu } = usePropertyData();
+  const { menuPhotoUrl } = usePropertyData();
+  const [photoZoomOpen, setPhotoZoomOpen] = useState(false);
 
-  const daysMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const todayName = daysMap[new Date().getDay()] as DayMenu['dayName'];
-
-  const [selectedDay, setSelectedDay] = useState<DayMenu['dayName']>(
-    menu.some(d => d.dayName === todayName) ? todayName : 'Monday'
-  );
-
-  const [mobileMealTab, setMobileMealTab] = useState<'breakfast' | 'lunch' | 'snacks' | 'dinner'>('breakfast');
-
-  const activeDayData = menu.find((d) => d.dayName === selectedDay) || menu[0];
+  const mealSlots = [
+    {
+      name: 'Breakfast',
+      time: '7:30 AM – 10:00 AM',
+      icon: Sun,
+      color: 'bg-amber-100 text-amber-900',
+      description: 'Idli Vada, Masala Dosa, Aloo Paratha, Poha, Filter Coffee & Tea'
+    },
+    {
+      name: 'Lunch',
+      time: '12:30 PM – 2:30 PM',
+      icon: Utensils,
+      color: 'bg-orange-100 text-orange-900',
+      description: 'Steamed Rice, Fresh Phulkas, Dal Tadka/Makhani, Seasonal Veg, Curd, Salad'
+    },
+    {
+      name: 'Evening Snacks',
+      time: '5:00 PM – 6:30 PM',
+      icon: Coffee,
+      color: 'bg-rose-100 text-rose-900',
+      description: 'Hot Pakodas, Samosas, Cutlets with Ginger Adrak Cutting Chai'
+    },
+    {
+      name: 'Dinner',
+      time: '7:30 PM – 10:00 PM',
+      icon: Moon,
+      color: 'bg-indigo-100 text-indigo-900',
+      description: 'Soft Butter Rotis, Paneer/Veg Special, Dal Fry, Jeera Rice, Sweet'
+    }
+  ];
 
   return (
     <section id="food" className="py-16 sm:py-24 bg-stone-100/60 border-t border-stone-200">
@@ -40,215 +62,181 @@ export const FoodSection: React.FC = () => {
             4 Homely Meals Everyday
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
-            Wholesome South & North Indian meals cooked fresh on-site with 100% RO purified water.
+            Homestyle South & North Indian food cooked fresh in our hygienic kitchen using 100% RO purified water.
           </p>
         </div>
 
-        {/* Feature Badges */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 mb-8">
-          {FOOD_FEATURES.map((feat, idx) => (
-            <div
-              key={idx}
-              className="p-3 sm:p-4 rounded-2xl bg-white border border-stone-200 shadow-2xs flex items-center gap-2.5 sm:gap-3"
+        {/* Main Food Content Grid: Photo Board + Meal Timings */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Owner Menu Board Photo (7 Cols) */}
+          <div className="lg:col-span-7 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <UtensilsCrossed className="w-4 h-4 text-amber-800" />
+                <h3 className="text-base sm:text-lg font-extrabold text-stone-900">
+                  Weekly Menu Board
+                </h3>
+              </div>
+              <span className="text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+                Updated Weekly
+              </span>
+            </div>
+
+            {/* Photo Card with Click-to-Zoom */}
+            <div 
+              onClick={() => setPhotoZoomOpen(true)}
+              className="relative rounded-3xl overflow-hidden bg-stone-900 border border-stone-300/80 shadow-card cursor-pointer group"
             >
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center shrink-0">
-                <FoodIcon name={feat.icon} />
-              </div>
-              <div>
-                <h4 className="font-extrabold text-stone-900 text-xs sm:text-sm">
-                  {feat.title}
-                </h4>
-                <p className="text-[10px] sm:text-[11px] text-stone-500 leading-tight mt-0.5 line-clamp-1 sm:line-clamp-2">
-                  {feat.description}
-                </p>
+              <div className="aspect-[16/11] sm:aspect-[16/10] relative overflow-hidden bg-stone-950">
+                <img
+                  src={menuPhotoUrl}
+                  alt="Nestora Coliving Weekly Food Menu"
+                  className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+
+                {/* Top Badge */}
+                <div className="absolute top-3 left-3 bg-stone-900/90 backdrop-blur-xs px-3 py-1 rounded-xl text-white text-[11px] font-bold border border-white/10 flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span>Official Kitchen Schedule</span>
+                </div>
+
+                {/* Zoom Pill Button */}
+                <div className="absolute top-3 right-3 bg-white/90 hover:bg-white text-stone-900 text-xs font-extrabold px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5 transition-all">
+                  <Maximize2 className="w-3.5 h-3.5" />
+                  <span>Tap to Enlarge</span>
+                </div>
+
+                {/* Bottom Caption */}
+                <div className="absolute bottom-3 left-3 right-3 text-white flex items-center justify-between text-xs">
+                  <div>
+                    <div className="font-extrabold text-sm sm:text-base">Weekly Meal Schedule</div>
+                    <div className="text-[11px] text-stone-300">Tap to inspect Monday through Sunday meals</div>
+                  </div>
+                  <span className="hidden sm:inline-block bg-emerald-600 px-2.5 py-1 rounded-lg font-bold text-[11px]">
+                    Unlimited Servings
+                  </span>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Weekly Day Selector Container */}
-        <div className="bg-white rounded-3xl border border-stone-200 shadow-card p-4 sm:p-7">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 sm:pb-6 border-b border-stone-200 gap-3">
-            <div className="flex items-center gap-2">
-              <CalendarDays className="w-4 h-4 sm:w-5 sm:h-5 text-amber-800" />
-              <h3 className="text-lg sm:text-2xl font-extrabold text-stone-900">
-                Weekly Dining Timetable
-              </h3>
-            </div>
+            <p className="text-[11px] text-stone-500 italic text-center sm:text-left">
+              * The owner updates the physical menu board photo regularly. Click to zoom in and read every dish clearly.
+            </p>
+          </div>
 
-            {/* Swipeable Days Bar */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 px-1 bg-stone-100 rounded-2xl border border-stone-200">
-              {menu.map((day) => {
-                const isSelected = selectedDay === day.dayName;
-                const isToday = day.dayName === todayName;
+          {/* Right Column: 4 Daily Meal Timings & Standards (5 Cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            <h3 className="text-base sm:text-lg font-extrabold text-stone-900">
+              Daily Meal Timings
+            </h3>
 
+            <div className="space-y-2.5">
+              {mealSlots.map((slot, idx) => {
+                const IconComponent = slot.icon;
                 return (
-                  <button
-                    key={day.dayName}
-                    type="button"
-                    onClick={() => setSelectedDay(day.dayName)}
-                    className={`px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all shrink-0 whitespace-nowrap ${
-                      isSelected
-                        ? 'bg-stone-900 text-white shadow-xs'
-                        : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/60'
-                    }`}
+                  <div
+                    key={idx}
+                    className="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200 shadow-2xs space-y-1.5"
                   >
-                    <span>{day.shortDay}</span>
-                    {isToday && (
-                      <span className={`block text-[9px] uppercase tracking-wider ${isSelected ? 'text-amber-300' : 'text-emerald-700 font-extrabold'}`}>
-                        Today
-                      </span>
-                    )}
-                  </button>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold ${slot.color}`}>
+                          <IconComponent className="w-4 h-4" />
+                        </span>
+                        <h4 className="font-extrabold text-stone-900 text-sm">
+                          {slot.name}
+                        </h4>
+                      </div>
+                      <div className="flex items-center gap-1 text-[11px] font-bold text-stone-500">
+                        <Clock className="w-3 h-3 text-amber-800" />
+                        <span>{slot.time}</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-stone-600 pl-9 leading-relaxed">
+                      {slot.description}
+                    </p>
+                  </div>
                 );
               })}
             </div>
-          </div>
 
-          {/* Active Day Info */}
-          <div className="py-3 sm:py-4 flex items-center justify-between">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg sm:text-2xl font-extrabold text-stone-900">
-                {activeDayData.dayName}'s Menu
-              </span>
-              <span className="text-[11px] sm:text-xs font-semibold px-2 py-0.5 rounded-full bg-stone-100 text-stone-700 border border-stone-200">
-                {activeDayData.theme}
-              </span>
+            {/* Hygiene & Food Perks Card */}
+            <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 space-y-2">
+              <div className="text-xs font-extrabold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                <span>Dining Standards</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs text-stone-800 font-medium pt-1">
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>100% RO Purified Water</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Separate Veg Cooking</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Unlimited Servings</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span>Hot Masala Chai Daily</span>
+                </div>
+              </div>
             </div>
-            <span className="text-[11px] font-bold text-emerald-700">
-              ✓ All 4 meals included
-            </span>
-          </div>
 
-          {/* Mobile Meal Tabs */}
-          <div className="md:hidden flex items-center gap-1 p-1 bg-stone-100 rounded-xl mb-4 border border-stone-200">
-            <button
-              type="button"
-              onClick={() => setMobileMealTab('breakfast')}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold text-center transition-all ${
-                mobileMealTab === 'breakfast' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600'
-              }`}
-            >
-              Breakfast
-            </button>
-            <button
-              type="button"
-              onClick={() => setMobileMealTab('lunch')}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold text-center transition-all ${
-                mobileMealTab === 'lunch' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600'
-              }`}
-            >
-              Lunch
-            </button>
-            <button
-              type="button"
-              onClick={() => setMobileMealTab('snacks')}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold text-center transition-all ${
-                mobileMealTab === 'snacks' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600'
-              }`}
-            >
-              Snacks
-            </button>
-            <button
-              type="button"
-              onClick={() => setMobileMealTab('dinner')}
-              className={`flex-1 py-1.5 rounded-lg text-xs font-extrabold text-center transition-all ${
-                mobileMealTab === 'dinner' ? 'bg-white text-stone-900 shadow-2xs' : 'text-stone-600'
-              }`}
-            >
-              Dinner
-            </button>
-          </div>
-
-          {/* Mobile Single Card View */}
-          <div className="md:hidden">
-            {mobileMealTab === 'breakfast' && (
-              <MealCard meal={activeDayData.meals.breakfast} badgeColor="bg-amber-100 text-amber-900" />
-            )}
-            {mobileMealTab === 'lunch' && (
-              <MealCard meal={activeDayData.meals.lunch} badgeColor="bg-orange-100 text-orange-900" />
-            )}
-            {mobileMealTab === 'snacks' && (
-              <MealCard meal={activeDayData.meals.snacks} badgeColor="bg-rose-100 text-rose-900" />
-            )}
-            {mobileMealTab === 'dinner' && (
-              <MealCard meal={activeDayData.meals.dinner} badgeColor="bg-indigo-100 text-indigo-900" />
-            )}
-          </div>
-
-          {/* Desktop/Tablet 4-Card Grid */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-            <MealCard meal={activeDayData.meals.breakfast} badgeColor="bg-amber-100 text-amber-900" />
-            <MealCard meal={activeDayData.meals.lunch} badgeColor="bg-orange-100 text-orange-900" />
-            <MealCard meal={activeDayData.meals.snacks} badgeColor="bg-rose-100 text-rose-900" />
-            <MealCard meal={activeDayData.meals.dinner} badgeColor="bg-indigo-100 text-indigo-900" />
-          </div>
-
-          {/* Footnote */}
-          <div className="mt-6 pt-4 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-stone-600">
-            <span>Special dietary preferences? We prepare vegetarian options separately.</span>
+            {/* Dietary Inquiry */}
             <a
               href={getGeneralEnquiryWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 font-bold text-emerald-700 hover:text-emerald-800"
+              className="w-full py-3 px-4 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>Ask about meals on WhatsApp</span>
+              <MessageCircle className="w-4 h-4 text-emerald-400" />
+              <span>Ask About Food Preferences on WhatsApp</span>
             </a>
           </div>
         </div>
       </div>
-    </section>
-  );
-};
 
-const MealCard: React.FC<{
-  meal: MealSlot;
-  badgeColor: string;
-}> = ({ meal, badgeColor }) => {
-  return (
-    <div className="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col justify-between">
-      <div>
-        <div className="flex items-center justify-between mb-2.5">
-          <span className={`text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full ${badgeColor}`}>
-            {meal.name}
-          </span>
-          <div className="flex items-center gap-1 text-[11px] font-semibold text-stone-500">
-            <Clock className="w-3 h-3 text-amber-800" />
-            <span>{meal.time}</span>
+      {/* Full-Screen Menu Photo Lightbox Modal */}
+      {photoZoomOpen && (
+        <div className="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-6 animate-fade-in">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between text-white border-b border-stone-800 pb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold px-3 py-1 rounded-full bg-amber-500/20 text-amber-400">
+                Nestora Weekly Food Menu Board
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setPhotoZoomOpen(false)}
+              className="p-2 rounded-full bg-stone-800 hover:bg-stone-700 text-white transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Central Zoomable Photo */}
+          <div className="relative flex-1 flex items-center justify-center my-3 overflow-auto">
+            <img
+              src={menuPhotoUrl}
+              alt="Nestora Coliving Weekly Menu Full-Screen"
+              className="max-h-[80vh] w-auto max-w-full object-contain rounded-xl shadow-2xl"
+            />
+          </div>
+
+          {/* Modal Footer */}
+          <div className="text-center text-xs text-stone-400 pb-2">
+            Pinch or zoom on your phone screen to read all details. Tap Close or background to exit.
           </div>
         </div>
-
-        <ul className="space-y-1.5 text-xs text-stone-800 mt-3">
-          {meal.items.map((item, idx) => (
-            <li key={idx} className="flex items-start gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-700 mt-1.5 shrink-0" />
-              <span className="leading-snug">{item}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="mt-4 pt-3 border-t border-stone-200/80 text-[11px] text-stone-500 flex items-center gap-1">
-        <Check className="w-3 h-3 text-emerald-600" />
-        <span>Unlimited servings in dining hall</span>
-      </div>
-    </div>
+      )}
+    </section>
   );
-};
-
-const FoodIcon: React.FC<{ name: string }> = ({ name }) => {
-  switch (name) {
-    case 'Soup':
-      return <Soup className="w-4 h-4" />;
-    case 'Salad':
-      return <Salad className="w-4 h-4" />;
-    case 'ShieldAlert':
-      return <ShieldAlert className="w-4 h-4" />;
-    case 'Flame':
-      return <Flame className="w-4 h-4" />;
-    default:
-      return <UtensilsCrossed className="w-4 h-4" />;
-  }
 };
