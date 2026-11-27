@@ -4,19 +4,23 @@ import {
   MessageCircle, 
   Phone, 
   MapPin, 
-  Check, 
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  UtensilsCrossed,
-  Wifi,
-  Zap
+  ArrowRight, 
+  UtensilsCrossed, 
+  Wifi, 
+  Sparkles, 
+  ShieldCheck 
 } from 'lucide-react';
-import { PROPERTY_DATA } from '../../data/property';
-import { getGeneralEnquiryWhatsAppUrl, getRoomEnquiryWhatsAppUrl, CALL_PHONE_NUMBER } from '../../utils/whatsapp';
+import { usePropertyData } from '../../context/PropertyContext';
+import { getRoomEnquiryWhatsAppUrl, CALL_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export const HeroSection: React.FC = () => {
+  const { property, rooms, isLive } = usePropertyData();
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'daily'>('monthly');
+
+  const twoSharing = rooms.find(r => r.id === 'double-sharing-pg') || rooms[0];
+  const monthlyFormatted = twoSharing?.monthlyRent?.formatted || '₹13,000';
+  const dailyFormatted = twoSharing?.dailyRent?.formatted || '₹1,200';
+  const heroImage = twoSharing?.image || 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80';
 
   const scrollToRooms = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -34,13 +38,13 @@ export const HeroSection: React.FC = () => {
   };
 
   const heroWhatsAppUrl = selectedPlan === 'monthly'
-    ? getRoomEnquiryWhatsAppUrl('2 Sharing PG Room', 'monthly', '₹13,000 / month')
-    : getRoomEnquiryWhatsAppUrl('Daily Flexible Stay', 'daily', '₹1,200 / day');
+    ? getRoomEnquiryWhatsAppUrl(twoSharing?.name || '2 Sharing PG Room', 'monthly', `${monthlyFormatted} / month`)
+    : getRoomEnquiryWhatsAppUrl(twoSharing?.name || 'Daily Flexible Stay', 'daily', `${dailyFormatted} / day`);
 
   return (
     <section id="home" className="relative pt-20 pb-12 sm:pt-28 sm:pb-20 overflow-hidden bg-stone-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Badges - Compact on mobile */}
+        {/* Top Badges */}
         <div className="flex flex-wrap items-center gap-2 mb-4 sm:mb-6">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-100 border border-stone-200/90 text-stone-800 text-[11px] sm:text-xs font-semibold">
             <MapPin className="w-3.5 h-3.5 text-amber-700" />
@@ -58,14 +62,21 @@ export const HeroSection: React.FC = () => {
                 <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
               ))}
             </div>
-            <span className="font-extrabold text-stone-900">{PROPERTY_DATA.googleRating.score}</span>
-            <span className="text-stone-500 hidden xs:inline">(128+ Reviews)</span>
+            <span className="font-extrabold text-stone-900">{property.googleRating.score}</span>
+            <span className="text-stone-500 hidden xs:inline">({property.googleRating.totalReviews}+ Reviews)</span>
           </a>
 
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Zero Brokerage</span>
           </div>
+
+          {isLive && (
+            <div className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-[10px] font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+              <span>Live Synced</span>
+            </div>
+          )}
         </div>
 
         {/* Main Content Layout */}
@@ -129,7 +140,7 @@ export const HeroSection: React.FC = () => {
                 <div>
                   <div className="flex items-baseline gap-1.5">
                     <span className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
-                      {selectedPlan === 'monthly' ? '₹13,000' : '₹1,200'}
+                      {selectedPlan === 'monthly' ? monthlyFormatted : dailyFormatted}
                     </span>
                     <span className="text-xs text-stone-500 font-semibold">
                       {selectedPlan === 'monthly' ? '/ month per person' : '/ day per person'}
@@ -152,7 +163,7 @@ export const HeroSection: React.FC = () => {
                   className="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 text-white" />
-                  <span>Book on WhatsApp ({selectedPlan === 'monthly' ? '₹13,000' : '₹1,200'})</span>
+                  <span>Book on WhatsApp ({selectedPlan === 'monthly' ? monthlyFormatted : dailyFormatted})</span>
                 </a>
 
                 <div className="grid grid-cols-2 gap-2">
@@ -176,7 +187,7 @@ export const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Micro Highlights Pills */}
+            {/* Micro Highlights */}
             <div className="grid grid-cols-3 gap-2 pt-2 text-center">
               <div className="p-2.5 rounded-xl bg-white border border-stone-200">
                 <div className="text-xs sm:text-sm font-extrabold text-stone-900">4 Meals</div>
@@ -198,7 +209,7 @@ export const HeroSection: React.FC = () => {
             <div className="relative rounded-3xl overflow-hidden bg-stone-900 shadow-xl border border-stone-200">
               <div className="aspect-[16/11] relative overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80"
+                  src={heroImage}
                   alt="Nestora Coliving 2 Sharing Room HSR Layout"
                   className="w-full h-full object-cover"
                 />
@@ -212,7 +223,7 @@ export const HeroSection: React.FC = () => {
 
                 {/* Tariff Tag */}
                 <div className="absolute top-3.5 right-3.5 bg-emerald-600 px-3 py-1 rounded-lg text-white text-xs font-extrabold shadow-sm">
-                  ₹13,000 / mo
+                  {monthlyFormatted} / mo
                 </div>
 
                 {/* Bottom Caption */}
@@ -233,11 +244,11 @@ export const HeroSection: React.FC = () => {
               {/* Bottom Feature Bar */}
               <div className="p-3 bg-stone-900 border-t border-stone-800 grid grid-cols-3 gap-1 text-center text-white">
                 <div>
-                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">₹13,000</div>
+                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">{monthlyFormatted}</div>
                   <div className="text-[9px] text-stone-400 uppercase tracking-wider">Monthly PG</div>
                 </div>
                 <div className="border-x border-stone-800">
-                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">₹1,200</div>
+                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">{dailyFormatted}</div>
                   <div className="text-[9px] text-stone-400 uppercase tracking-wider">Daily Stay</div>
                 </div>
                 <div>

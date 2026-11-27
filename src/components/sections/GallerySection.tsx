@@ -5,15 +5,17 @@ import {
   ChevronRight, 
   Maximize2 
 } from 'lucide-react';
-import { GALLERY_DATA, GALLERY_CATEGORIES } from '../../data/gallery';
+import { usePropertyData } from '../../context/PropertyContext';
+import { GALLERY_CATEGORIES } from '../../data/gallery';
 
 export const GallerySection: React.FC = () => {
+  const { gallery } = usePropertyData();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filteredImages = selectedCategory === 'all'
-    ? GALLERY_DATA
-    : GALLERY_DATA.filter((img) => img.category === selectedCategory);
+    ? gallery
+    : gallery.filter((img) => img.category === selectedCategory);
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);

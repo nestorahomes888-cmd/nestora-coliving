@@ -1,34 +1,32 @@
 import React, { useState } from 'react';
 import { 
-  UtensilsCrossed, 
-  Sun, 
-  Utensils, 
-  Coffee, 
-  Moon, 
+  CalendarDays,
   Clock, 
   Check, 
-  CalendarDays,
   MessageCircle,
   Soup,
   Salad,
   ShieldAlert,
-  Flame
+  Flame,
+  UtensilsCrossed
 } from 'lucide-react';
-import { WEEKLY_MENU_DATA, FOOD_FEATURES, DayMenu, MealSlot } from '../../data/foodMenu';
+import { usePropertyData } from '../../context/PropertyContext';
+import { FOOD_FEATURES, DayMenu, MealSlot } from '../../data/foodMenu';
 import { getGeneralEnquiryWhatsAppUrl } from '../../utils/whatsapp';
 
 export const FoodSection: React.FC = () => {
+  const { menu } = usePropertyData();
+
   const daysMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const todayName = daysMap[new Date().getDay()] as DayMenu['dayName'];
 
   const [selectedDay, setSelectedDay] = useState<DayMenu['dayName']>(
-    WEEKLY_MENU_DATA.some(d => d.dayName === todayName) ? todayName : 'Monday'
+    menu.some(d => d.dayName === todayName) ? todayName : 'Monday'
   );
 
-  // Active meal tab on mobile view
   const [mobileMealTab, setMobileMealTab] = useState<'breakfast' | 'lunch' | 'snacks' | 'dinner'>('breakfast');
 
-  const activeDayData = WEEKLY_MENU_DATA.find((d) => d.dayName === selectedDay) || WEEKLY_MENU_DATA[0];
+  const activeDayData = menu.find((d) => d.dayName === selectedDay) || menu[0];
 
   return (
     <section id="food" className="py-16 sm:py-24 bg-stone-100/60 border-t border-stone-200">
@@ -46,7 +44,7 @@ export const FoodSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Feature Badges - 2x2 grid on mobile */}
+        {/* Feature Badges */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5 mb-8">
           {FOOD_FEATURES.map((feat, idx) => (
             <div
@@ -78,9 +76,9 @@ export const FoodSection: React.FC = () => {
               </h3>
             </div>
 
-            {/* Swipeable Days Bar - Smooth Horizontal Scroll on Mobile */}
+            {/* Swipeable Days Bar */}
             <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 px-1 bg-stone-100 rounded-2xl border border-stone-200">
-              {WEEKLY_MENU_DATA.map((day) => {
+              {menu.map((day) => {
                 const isSelected = selectedDay === day.dayName;
                 const isToday = day.dayName === todayName;
 
@@ -122,7 +120,7 @@ export const FoodSection: React.FC = () => {
             </span>
           </div>
 
-          {/* Mobile Meal Tabs (for screen < md) */}
+          {/* Mobile Meal Tabs */}
           <div className="md:hidden flex items-center gap-1 p-1 bg-stone-100 rounded-xl mb-4 border border-stone-200">
             <button
               type="button"
@@ -186,7 +184,7 @@ export const FoodSection: React.FC = () => {
             <MealCard meal={activeDayData.meals.dinner} badgeColor="bg-indigo-100 text-indigo-900" />
           </div>
 
-          {/* Footnote & Inquiry link */}
+          {/* Footnote */}
           <div className="mt-6 pt-4 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-stone-600">
             <span>Special dietary preferences? We prepare vegetarian options separately.</span>
             <a

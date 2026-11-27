@@ -10,11 +10,16 @@ import {
   DoorClosed, 
   Flame 
 } from 'lucide-react';
-import { ROOMS_DATA } from '../../data/rooms';
+import { usePropertyData } from '../../context/PropertyContext';
 import { getRoomEnquiryWhatsAppUrl, CALL_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export const RoomsSection: React.FC = () => {
+  const { rooms } = usePropertyData();
   const [activePlan, setActivePlan] = useState<'monthly' | 'daily'>('monthly');
+
+  const twoSharing = rooms.find(r => r.id === 'double-sharing-pg') || rooms[0];
+  const monthlyDisplay = twoSharing?.monthlyRent?.formatted || '₹13,000';
+  const dailyDisplay = twoSharing?.dailyRent?.formatted || '₹1,200';
 
   return (
     <section id="rooms" className="py-16 sm:py-24 bg-stone-100/70 border-y border-stone-200">
@@ -42,8 +47,8 @@ export const RoomsSection: React.FC = () => {
                   : 'text-stone-700 hover:text-stone-900'
               }`}
             >
-              <span className="hidden sm:inline">Monthly PG (₹13,000/mo)</span>
-              <span className="sm:hidden">Monthly (₹13,000)</span>
+              <span className="hidden sm:inline">Monthly PG ({monthlyDisplay}/mo)</span>
+              <span className="sm:hidden">Monthly ({monthlyDisplay})</span>
             </button>
             <button
               type="button"
@@ -54,15 +59,15 @@ export const RoomsSection: React.FC = () => {
                   : 'text-stone-700 hover:text-stone-900'
               }`}
             >
-              <span className="hidden sm:inline">Daily Stay (₹1,200/day)</span>
-              <span className="sm:hidden">Daily (₹1,200)</span>
+              <span className="hidden sm:inline">Daily Stay ({dailyDisplay}/day)</span>
+              <span className="sm:hidden">Daily ({dailyDisplay})</span>
             </button>
           </div>
         </div>
 
         {/* Room Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
-          {ROOMS_DATA.map((room) => {
+          {rooms.map((room) => {
             const pricing = activePlan === 'monthly' ? room.monthlyRent : room.dailyRent;
             const isTwoSharing = room.id === 'double-sharing-pg';
             const whatsappUrl = getRoomEnquiryWhatsAppUrl(
@@ -229,12 +234,12 @@ export const RoomsSection: React.FC = () => {
             <div className="grid grid-cols-2 gap-3 border-y md:border-y-0 md:border-x border-stone-800 py-3 md:py-0 md:px-5">
               <div>
                 <div className="text-[10px] text-stone-400 uppercase font-semibold">2 Sharing PG (Monthly)</div>
-                <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">₹13,000</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">{monthlyDisplay}</div>
                 <div className="text-[10px] text-stone-400">per person with 4 meals</div>
               </div>
               <div>
                 <div className="text-[10px] text-stone-400 uppercase font-semibold">Daily Stay (Short-term)</div>
-                <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">₹1,200</div>
+                <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">{dailyDisplay}</div>
                 <div className="text-[10px] text-stone-400">per day with meals</div>
               </div>
             </div>
