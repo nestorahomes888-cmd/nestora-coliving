@@ -1,19 +1,13 @@
 # Nestora Coliving — Google Sheet Guide for the Owner
 > **No Coding Required.** The owner can update photos, food menu, rent prices, and amenities directly from Google Sheets on their smartphone or laptop.
+> 
+> 🔗 **Your Connected Live Sheet:** [Click here to open the Nestora Coliving Google Sheet](https://docs.google.com/spreadsheets/d/1H_Hd_ucZ0XVAeAKTRTlCWobXq7guhxY4KoBlnpQ9qf4/edit?usp=sharing)
+>
+> **Sheet ID:** `1H_Hd_ucZ0XVAeAKTRTlCWobXq7guhxY4KoBlnpQ9qf4`
 
 ---
 
-### Step 1: Create Your Google Sheet
-1. Open [Google Sheets](https://sheets.new) and name the spreadsheet: **`Nestora Website Data`**.
-2. At the bottom of the sheet, create **4 tabs** with these exact names:
-   * **`Settings`**
-   * **`Pricing`**
-   * **`Amenities`**
-   * **`Gallery`**
-
----
-
-### Step 2: Fill in the 4 Tabs
+### Your 4 Sheet Tabs (Already Setup & Connected!)
 
 #### 📄 Tab 1: `Settings`
 Use Row 1 as headers:
