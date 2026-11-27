@@ -86,13 +86,13 @@ export const Navbar: React.FC = () => {
             </a>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+            <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  className="px-3 py-1.5 rounded-lg text-sm font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors whitespace-nowrap"
+                  className="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-stone-700 hover:text-stone-950 hover:bg-stone-100 transition-colors whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -100,10 +100,10 @@ export const Navbar: React.FC = () => {
             </nav>
 
             {/* Desktop Quick Actions */}
-            <div className="hidden md:flex items-center gap-2.5 shrink-0">
+            <div className="hidden md:flex items-center gap-2 shrink-0">
               <a
                 href={`tel:${CALL_PHONE_NUMBER}`}
-                className="hidden xl:inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-stone-800 hover:bg-stone-200/70 border border-stone-300 transition-colors whitespace-nowrap"
+                className="hidden xl:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-stone-800 hover:bg-stone-200/70 border border-stone-300 transition-colors whitespace-nowrap"
                 title="Call Host"
               >
                 <Phone className="w-3.5 h-3.5 text-stone-900" />
@@ -114,9 +114,9 @@ export const Navbar: React.FC = () => {
                 href={getGeneralEnquiryWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs transition-all whitespace-nowrap"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white shadow-xs transition-all whitespace-nowrap"
               >
-                <MessageCircle className="w-4 h-4 text-white" />
+                <MessageCircle className="w-3.5 h-3.5 text-white" />
                 <span>WhatsApp Enquiry</span>
               </a>
             </div>

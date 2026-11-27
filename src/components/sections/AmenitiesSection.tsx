@@ -41,17 +41,17 @@ export const AmenitiesSection: React.FC = () => {
             Everything you need for productive, comfortable coliving in Bengaluru. All amenities are covered under your rent with zero extra bills.
           </p>
 
-          {/* Swipeable Filter Pills on Mobile */}
-          <div className="mt-6 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 px-1 sm:justify-center">
+          {/* Filter Pills with smooth horizontal scrolling on mobile & centered flex wrap on tablet/desktop */}
+          <div className="mt-6 flex items-center justify-start sm:justify-center flex-nowrap sm:flex-wrap gap-2 overflow-x-auto no-scrollbar py-1 px-2">
             {AMENITIES_CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all shrink-0 whitespace-nowrap ${
+                className={`px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all shrink-0 whitespace-nowrap cursor-pointer ${
                   activeCategory === cat.id
                     ? 'bg-stone-900 text-white shadow-xs'
-                    : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-100'
+                    : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-100 hover:text-stone-900'
                 }`}
               >
                 {cat.label}
