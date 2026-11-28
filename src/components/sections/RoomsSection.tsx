@@ -14,8 +14,11 @@ import { usePropertyData } from '../../context/PropertyContext';
 import { getRoomEnquiryWhatsAppUrl, CALL_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export const RoomsSection: React.FC = () => {
-  const { rooms } = usePropertyData();
+  const { rooms, amenities } = usePropertyData();
   const [activePlan, setActivePlan] = useState<'monthly' | 'daily'>('monthly');
+
+  const mealAmenity = amenities.find(a => a.name.toLowerCase().includes('meal') || a.name.toLowerCase().includes('food'));
+  const mealName = mealAmenity?.name || 'Homely Meals Everyday';
 
   const twoSharing = rooms.find(r => r.id === 'double-sharing-pg') || rooms[0];
   const monthlyDisplay = twoSharing?.monthlyRent?.formatted || '₹13,000';
@@ -144,7 +147,7 @@ export const RoomsSection: React.FC = () => {
                     {/* Inclusions Strip */}
                     <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 text-amber-950 text-xs font-semibold flex items-center gap-2">
                       <UtensilsCrossed className="w-4 h-4 text-amber-700 shrink-0" />
-                      <span>Includes: 4 Meals Daily (Breakfast, Lunch, Snacks, Dinner) + 300 Mbps Wi-Fi</span>
+                      <span>Includes: {mealName} + 300 Mbps Wi-Fi</span>
                     </div>
 
                     {/* In-Room Facilities Grid */}
@@ -227,7 +230,7 @@ export const RoomsSection: React.FC = () => {
                 Nestora HSR Rate Card
               </h3>
               <p className="text-xs text-stone-400 mt-1">
-                Zero brokerage • Low deposit • 4 meals included daily
+                Zero brokerage • Low deposit • Meals included daily
               </p>
             </div>
 
@@ -235,7 +238,7 @@ export const RoomsSection: React.FC = () => {
               <div>
                 <div className="text-[10px] text-stone-400 uppercase font-semibold">2 Sharing PG (Monthly)</div>
                 <div className="text-xl sm:text-2xl font-extrabold text-amber-300 mt-0.5">{monthlyDisplay}</div>
-                <div className="text-[10px] text-stone-400">per person with 4 meals</div>
+                <div className="text-[10px] text-stone-400">per person with meals</div>
               </div>
               <div>
                 <div className="text-[10px] text-stone-400 uppercase font-semibold">Daily Stay (Short-term)</div>

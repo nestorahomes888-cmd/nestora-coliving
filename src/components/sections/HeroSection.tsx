@@ -14,8 +14,12 @@ import { usePropertyData } from '../../context/PropertyContext';
 import { getRoomEnquiryWhatsAppUrl, CALL_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export const HeroSection: React.FC = () => {
-  const { property, rooms, isLive } = usePropertyData();
+  const { property, rooms, amenities, isLive } = usePropertyData();
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'daily'>('monthly');
+
+  const mealAmenity = amenities.find(a => a.name.toLowerCase().includes('meal') || a.name.toLowerCase().includes('food'));
+  const mealCount = mealAmenity ? (mealAmenity.name.match(/\d+/) ? `${mealAmenity.name.match(/\d+/)![0]} Meals` : 'Meals Included') : 'Meals Included';
+  const mealBadge = mealAmenity?.badge || 'Meals Included';
 
   const twoSharing = rooms.find(r => r.id === 'double-sharing-pg') || rooms[0];
   const monthlyFormatted = twoSharing?.monthlyRent?.formatted || '₹13,000';
@@ -105,7 +109,7 @@ export const HeroSection: React.FC = () => {
                   Select Living Plan
                 </span>
                 <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                  4 Meals Included
+                  {mealBadge}
                 </span>
               </div>
 
@@ -190,7 +194,7 @@ export const HeroSection: React.FC = () => {
             {/* Micro Highlights */}
             <div className="grid grid-cols-3 gap-2 pt-2 text-center">
               <div className="p-2.5 rounded-xl bg-white border border-stone-200">
-                <div className="text-xs sm:text-sm font-extrabold text-stone-900">4 Meals</div>
+                <div className="text-xs sm:text-sm font-extrabold text-stone-900">{mealCount}</div>
                 <div className="text-[10px] text-stone-500">Everyday</div>
               </div>
               <div className="p-2.5 rounded-xl bg-white border border-stone-200">
@@ -252,7 +256,7 @@ export const HeroSection: React.FC = () => {
                   <div className="text-[9px] text-stone-400 uppercase tracking-wider">Daily Stay</div>
                 </div>
                 <div>
-                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">4 Meals</div>
+                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">{mealCount}</div>
                   <div className="text-[9px] text-stone-400 uppercase tracking-wider">Daily Service</div>
                 </div>
               </div>
@@ -265,7 +269,7 @@ export const HeroSection: React.FC = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200 shadow-2xs">
               <UtensilsCrossed className="w-5 h-5 text-amber-700 mb-2" />
-              <h4 className="font-extrabold text-stone-900 text-xs sm:text-sm">4 Meals Daily</h4>
+              <h4 className="font-extrabold text-stone-900 text-xs sm:text-sm">{mealAmenity?.name || 'Homely Meals Daily'}</h4>
               <p className="text-[11px] text-stone-500 mt-0.5 leading-snug">
                 South & North Indian meals cooked fresh everyday.
               </p>
