@@ -68,8 +68,8 @@ export const RoomsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Room Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+        {/* Room Cards Grid - Dynamically supports 2, 3, 4+ rooms */}
+        <div className={`grid grid-cols-1 ${rooms.length === 2 ? 'md:grid-cols-2 max-w-5xl mx-auto' : 'md:grid-cols-2 lg:grid-cols-3'} gap-6 sm:gap-8 items-stretch`}>
           {rooms.map((room) => {
             const pricing = activePlan === 'monthly' ? room.monthlyRent : room.dailyRent;
             const isTwoSharing = room.id === 'double-sharing-pg';
@@ -147,7 +147,7 @@ export const RoomsSection: React.FC = () => {
                     {/* Inclusions Strip */}
                     <div className="p-3 rounded-xl bg-amber-50/80 border border-amber-200/80 text-amber-950 text-xs font-semibold flex items-center gap-2">
                       <UtensilsCrossed className="w-4 h-4 text-amber-700 shrink-0" />
-                      <span>Includes: {mealName} + 300 Mbps Wi-Fi</span>
+                      <span>Includes: Homely Food & 300 Mbps Wi-Fi</span>
                     </div>
 
                     {/* In-Room Facilities Grid */}

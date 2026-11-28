@@ -38,7 +38,7 @@ export const ROOMS_DATA: RoomPlan[] = [
       amount: 13000,
       formatted: "₹13,000",
       period: "/ month per person",
-      subtext: "All-inclusive PG monthly rent • Includes all 4 meals daily"
+      subtext: "All-inclusive PG monthly rent • Homely food included"
     },
     dailyRent: {
       amount: 1200,
@@ -51,13 +51,13 @@ export const ROOMS_DATA: RoomPlan[] = [
       "Attached clean washroom with 24/7 instant hot water geyser",
       "Individual work desks & ergonomic study chairs for both",
       "Separate private wooden wardrobes with secure individual locks",
-      "4 Homely Meals Everyday (Breakfast, Lunch, Snacks, Dinner)",
+      "Freshly Prepared Homely Food Everyday",
       "Ultra-Fast 300 Mbps Wi-Fi with dedicated room coverage",
       "Daily in-room housekeeping & periodic deep cleaning",
       "100% Uninterrupted Power Backup (Inverter + Generator)"
     ],
     inclusions: [
-      "4 Meals Daily Included",
+      "Homely Food Included",
       "High-Speed Wi-Fi",
       "Daily Cleaning",
       "Geyser Hot Water",
@@ -79,7 +79,7 @@ export const ROOMS_DATA: RoomPlan[] = [
       amount: 22000,
       formatted: "₹22,000",
       period: "/ month",
-      subtext: "All-inclusive private room • Includes all 4 meals daily"
+      subtext: "All-inclusive private room • Homely food included"
     },
     dailyRent: {
       amount: 1500,
@@ -92,13 +92,13 @@ export const ROOMS_DATA: RoomPlan[] = [
       "Dedicated executive work-from-home desk & office chair",
       "Private attached designer washroom with hot water",
       "Large floor-to-ceiling wardrobe with personal digital locker",
-      "4 Homely Meals Everyday (Breakfast, Lunch, Snacks, Dinner)",
+      "Freshly Prepared Homely Food Everyday",
       "Ultra-Fast 300 Mbps Wi-Fi with zero dead spots",
       "Daily room cleaning, linen change & sanitization",
       "100% Power backup & silent generator"
     ],
     inclusions: [
-      "4 Meals Daily Included",
+      "Homely Food Included",
       "High-Speed Wi-Fi",
       "Daily Cleaning",
       "Private Bathroom",
@@ -116,6 +116,6 @@ export const TARIFF_SUMMARY = {
   singleMonthly: "₹22,000",
   singleDaily: "₹1,500",
   deposit: "Nominal Security Deposit • Zero Brokerage",
-  foodIncluded: "4 meals included daily (Breakfast, Lunch, Evening Snacks & Dinner)",
+  foodIncluded: "Freshly prepared homely food included daily",
   utilitiesIncluded: "Wi-Fi, Electricity, Housekeeping & Water included"
 };

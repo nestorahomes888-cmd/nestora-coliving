@@ -19,9 +19,9 @@ export const AMENITIES_CATEGORIES = [
 export const AMENITIES_DATA: AmenityItem[] = [
   {
     id: "homely-meals",
-    name: "4 Homely Meals Everyday",
+    name: "Homely Food Everyday",
     category: "dining",
-    description: "Nutritious and freshly prepared South & North Indian breakfast, lunch, evening high-tea snacks, and dinner cooked with farm-fresh produce.",
+    description: "Nutritious and freshly prepared South & North Indian home-cooked food made with farm-fresh produce.",
     icon: "UtensilsCrossed",
     badge: "Included with Stay"
   },

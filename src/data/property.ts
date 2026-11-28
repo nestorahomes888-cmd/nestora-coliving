@@ -79,7 +79,7 @@ export const PROPERTY_DATA: PropertyInfo = {
       icon: "ShieldCheck"
     },
     {
-      label: "4 Homely Meals Daily",
+      label: "Homely Food Daily",
       description: "Hygienically prepared nutritious breakfast, lunch, high-tea snacks & dinner.",
       icon: "UtensilsCrossed"
     },

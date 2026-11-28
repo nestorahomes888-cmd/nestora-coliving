@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-stone-400 leading-relaxed">
-              Boutique coliving and premium PG accommodation in Sector 1, HSR Layout, Bengaluru. High-speed Wi-Fi, 4 daily meals, and daily housekeeping.
+              Boutique coliving and premium PG accommodation in Sector 1, HSR Layout, Bengaluru. High-speed Wi-Fi, homely meals, and daily housekeeping.
             </p>
             <div className="text-xs text-emerald-400 flex items-center gap-1.5 pt-1">
               <Check className="w-3.5 h-3.5" />
@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
               <li><a href="#home" className="hover:text-amber-300 transition-colors">Overview</a></li>
               <li><a href="#rooms" className="hover:text-amber-300 transition-colors">Rooms & Tariff</a></li>
               <li><a href="#amenities" className="hover:text-amber-300 transition-colors">Amenities & Perks</a></li>
-              <li><a href="#food" className="hover:text-amber-300 transition-colors">Food & 4-Meal Menu</a></li>
+              <li><a href="#food" className="hover:text-amber-300 transition-colors">Food Menu</a></li>
               <li><a href="#gallery" className="hover:text-amber-300 transition-colors">Photo Gallery</a></li>
               <li><a href="#location" className="hover:text-amber-300 transition-colors">Location & Commutes</a></li>
               <li><a href="#contact" className="hover:text-amber-300 transition-colors">Contact Management</a></li>

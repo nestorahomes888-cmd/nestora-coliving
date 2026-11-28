@@ -99,7 +99,7 @@ export const HeroSection: React.FC = () => {
             </div>
 
             <p className="text-sm sm:text-base text-stone-600 leading-relaxed max-w-xl font-normal">
-              Premium unisex coliving space in HSR Layout Sector 1. Clean twin & private rooms with 4 home-cooked meals daily, 300 Mbps Wi-Fi, daily housekeeping, and 24/7 security.
+              Premium unisex coliving space in HSR Layout Sector 1. Clean twin & private rooms with freshly prepared home-cooked food, 300 Mbps Wi-Fi, daily housekeeping, and 24/7 security.
             </p>
 
             {/* Dynamic Mobile-First Rent Calculator Card */}
@@ -109,7 +109,7 @@ export const HeroSection: React.FC = () => {
                   Select Living Plan
                 </span>
                 <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                  {mealBadge}
+                  Food Included
                 </span>
               </div>
 
@@ -152,8 +152,8 @@ export const HeroSection: React.FC = () => {
                   </div>
                   <div className="text-[11px] text-stone-500 mt-0.5">
                     {selectedPlan === 'monthly' 
-                      ? 'Includes Breakfast, Lunch, Snacks & Dinner • Zero Brokerage' 
-                      : 'Includes all meals & Wi-Fi • Zero lock-in period'}
+                      ? 'Includes Homely Food & Utilities • Zero Brokerage' 
+                      : 'Includes food & Wi-Fi • Zero lock-in period'}
                   </div>
                 </div>
               </div>
@@ -194,8 +194,8 @@ export const HeroSection: React.FC = () => {
             {/* Micro Highlights */}
             <div className="grid grid-cols-3 gap-2 pt-2 text-center">
               <div className="p-2.5 rounded-xl bg-white border border-stone-200">
-                <div className="text-xs sm:text-sm font-extrabold text-stone-900">{mealCount}</div>
-                <div className="text-[10px] text-stone-500">Everyday</div>
+                <div className="text-xs sm:text-sm font-extrabold text-stone-900">Food</div>
+                <div className="text-[10px] text-stone-500">Included</div>
               </div>
               <div className="p-2.5 rounded-xl bg-white border border-stone-200">
                 <div className="text-xs sm:text-sm font-extrabold text-stone-900">300 Mbps</div>
@@ -256,8 +256,8 @@ export const HeroSection: React.FC = () => {
                   <div className="text-[9px] text-stone-400 uppercase tracking-wider">Daily Stay</div>
                 </div>
                 <div>
-                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">{mealCount}</div>
-                  <div className="text-[9px] text-stone-400 uppercase tracking-wider">Daily Service</div>
+                  <div className="text-amber-400 font-extrabold text-sm sm:text-base">Food</div>
+                  <div className="text-[9px] text-stone-400 uppercase tracking-wider">Included</div>
                 </div>
               </div>
             </div>
@@ -269,9 +269,9 @@ export const HeroSection: React.FC = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-stone-200 shadow-2xs">
               <UtensilsCrossed className="w-5 h-5 text-amber-700 mb-2" />
-              <h4 className="font-extrabold text-stone-900 text-xs sm:text-sm">{mealAmenity?.name || 'Homely Meals Daily'}</h4>
+              <h4 className="font-extrabold text-stone-900 text-xs sm:text-sm">Homely Food</h4>
               <p className="text-[11px] text-stone-500 mt-0.5 leading-snug">
-                South & North Indian meals cooked fresh everyday.
+                Nutritious home-style meals cooked fresh everyday.
               </p>
             </div>
 
