@@ -3,6 +3,7 @@ export type RentalDuration = 'monthly' | 'daily';
 export interface RoomPlan {
   id: string;
   name: string;
+  description?: string;
   tagline: string;
   badge?: string;
   occupancy: string;

@@ -167,20 +167,36 @@ export async function fetchLiveContent(): Promise<{
     // 2. Process Pricing & Room Photos Dynamically
     let updatedRooms: RoomPlan[] = [];
     if (pricingRows && pricingRows.length > 1) {
+      const headers = pricingRows[0].map(h => (h || '').toLowerCase().trim());
+      const descColIdx = headers.findIndex(h => h.includes('desc'));
+
       const dataRows = pricingRows.slice(1).filter(row => row.some(cell => (cell || '').trim().length > 0));
       
       if (dataRows.length > 0) {
         updatedRooms = dataRows.map((row, idx) => {
-          const rawId = (row[0] || '').trim();
+          const rawColA = (row[0] || '').trim();
           const rawName = (row[1] || '').trim();
           const rawMonthly = (row[2] || '').trim();
           const rawDaily = (row[3] || '').trim();
           const rawImage = normalizeImageUrl(row[4] || '');
           const rawBadge = (row[5] || '').trim();
+          const rawDescCol = descColIdx !== -1 ? (row[descColIdx] || '').trim() : '';
+
+          // Determine description:
+          // If a description column exists, use that.
+          // Otherwise, if Column A has words (like "1BHK FULLY WITH AC"), use Column A!
+          let description = rawDescCol;
+          if (!description && rawColA) {
+            if (rawColA.includes(' ') || rawColA.toUpperCase() === rawColA || rawColA !== rawColA.toLowerCase()) {
+              description = rawColA;
+            } else {
+              description = rawColA.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            }
+          }
 
           // Match template by ID, Name, or fall back by index
           const template = ROOMS_DATA.find(r => 
-            (rawId && (r.id.toLowerCase().includes(rawId.toLowerCase()) || rawId.toLowerCase().includes(r.id.toLowerCase()))) ||
+            (rawColA && (r.id.toLowerCase().includes(rawColA.toLowerCase()) || rawColA.toLowerCase().includes(r.id.toLowerCase()))) ||
             (rawName && (r.name.toLowerCase().includes(rawName.toLowerCase()) || rawName.toLowerCase().includes(r.name.toLowerCase())))
           ) || ROOMS_DATA[idx] || ROOMS_DATA[0];
 
@@ -201,16 +217,17 @@ export async function fetchLiveContent(): Promise<{
             : template.dailyRent.formatted;
 
           const roomName = rawName || template.name;
-          const roomId = rawId ? rawId.toLowerCase().replace(/[^a-z0-9_-]/g, '-') : template.id;
+          const roomId = rawColA ? rawColA.toLowerCase().replace(/[^a-z0-9_-]/g, '-') : template.id;
 
           return {
             ...template,
             id: roomId,
             name: roomName,
-            tagline: rawName ? `${roomName} Plan` : template.tagline,
+            description: description || rawName,
+            tagline: description || rawName,
             badge: rawBadge || template.badge,
             occupancy: roomName,
-            occupancyLabel: `${roomName} • Fully Furnished`,
+            occupancyLabel: description || roomName,
             image: rawImage || template.image,
             monthlyRent: {
               ...template.monthlyRent,
