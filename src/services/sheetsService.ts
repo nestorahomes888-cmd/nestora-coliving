@@ -74,8 +74,14 @@ function parseCSV(text: string): string[][] {
 
 async function fetchSheetCSV(sheetId: string, sheetName: string): Promise<string[][] | null> {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-    const response = await fetch(url);
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&_t=${Date.now()}`;
+    const response = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache'
+      }
+    });
     if (!response.ok) return null;
     const csvText = await response.text();
     return parseCSV(csvText);
@@ -158,58 +164,71 @@ export async function fetchLiveContent(): Promise<{
       });
     }
 
-    // 2. Process Pricing & Room Photos
-    let updatedRooms = [...ROOMS_DATA];
+    // 2. Process Pricing & Room Photos Dynamically
+    let updatedRooms: RoomPlan[] = [];
     if (pricingRows && pricingRows.length > 1) {
-      const dataRows = pricingRows.slice(1);
-      dataRows.forEach(row => {
-        const id = (row[0] || '').toLowerCase().trim();
-        const monthly = row[2]?.trim();
-        const daily = row[3]?.trim();
-        const image = normalizeImageUrl(row[4] || '');
-        const badge = row[5]?.trim();
+      const dataRows = pricingRows.slice(1).filter(row => row.some(cell => (cell || '').trim().length > 0));
+      
+      if (dataRows.length > 0) {
+        updatedRooms = dataRows.map((row, idx) => {
+          const rawId = (row[0] || '').trim();
+          const rawName = (row[1] || '').trim();
+          const rawMonthly = (row[2] || '').trim();
+          const rawDaily = (row[3] || '').trim();
+          const rawImage = normalizeImageUrl(row[4] || '');
+          const rawBadge = (row[5] || '').trim();
 
-        const matchIdx = updatedRooms.findIndex(r => 
-          r.id.toLowerCase().includes(id) || id.includes(r.id.toLowerCase())
-        );
+          // Match template by ID, Name, or fall back by index
+          const template = ROOMS_DATA.find(r => 
+            (rawId && (r.id.toLowerCase().includes(rawId.toLowerCase()) || rawId.toLowerCase().includes(r.id.toLowerCase()))) ||
+            (rawName && (r.name.toLowerCase().includes(rawName.toLowerCase()) || rawName.toLowerCase().includes(r.name.toLowerCase())))
+          ) || ROOMS_DATA[idx] || ROOMS_DATA[0];
 
-        if (matchIdx !== -1) {
-          if (monthly) {
-            const num = parseInt(monthly.replace(/\D/g, ''), 10) || updatedRooms[matchIdx].monthlyRent.amount;
-            updatedRooms[matchIdx] = {
-              ...updatedRooms[matchIdx],
-              monthlyRent: {
-                ...updatedRooms[matchIdx].monthlyRent,
-                amount: num,
-                formatted: monthly.startsWith('₹') ? monthly : `₹${monthly}`
-              }
-            };
-          }
-          if (daily) {
-            const num = parseInt(daily.replace(/\D/g, ''), 10) || updatedRooms[matchIdx].dailyRent.amount;
-            updatedRooms[matchIdx] = {
-              ...updatedRooms[matchIdx],
-              dailyRent: {
-                ...updatedRooms[matchIdx].dailyRent,
-                amount: num,
-                formatted: daily.startsWith('₹') ? daily : `₹${daily}`
-              }
-            };
-          }
-          if (image) {
-            updatedRooms[matchIdx] = {
-              ...updatedRooms[matchIdx],
-              image
-            };
-          }
-          if (badge) {
-            updatedRooms[matchIdx] = {
-              ...updatedRooms[matchIdx],
-              badge
-            };
-          }
-        }
-      });
+          const monthlyNum = rawMonthly 
+            ? parseInt(rawMonthly.replace(/\D/g, ''), 10) || template.monthlyRent.amount
+            : template.monthlyRent.amount;
+
+          const monthlyFormatted = rawMonthly 
+            ? (rawMonthly.startsWith('₹') ? rawMonthly : `₹${rawMonthly}`) 
+            : template.monthlyRent.formatted;
+
+          const dailyNum = rawDaily 
+            ? parseInt(rawDaily.replace(/\D/g, ''), 10) || template.dailyRent.amount 
+            : template.dailyRent.amount;
+
+          const dailyFormatted = rawDaily 
+            ? (rawDaily.startsWith('₹') ? rawDaily : `₹${rawDaily}`) 
+            : template.dailyRent.formatted;
+
+          const roomName = rawName || template.name;
+          const roomId = rawId ? rawId.toLowerCase().replace(/[^a-z0-9_-]/g, '-') : template.id;
+
+          return {
+            ...template,
+            id: roomId,
+            name: roomName,
+            tagline: rawName ? `${roomName} Plan` : template.tagline,
+            badge: rawBadge || template.badge,
+            occupancy: roomName,
+            occupancyLabel: `${roomName} • Fully Furnished`,
+            image: rawImage || template.image,
+            monthlyRent: {
+              ...template.monthlyRent,
+              amount: monthlyNum,
+              formatted: monthlyFormatted
+            },
+            dailyRent: {
+              ...template.dailyRent,
+              amount: dailyNum,
+              formatted: dailyFormatted
+            }
+          };
+        });
+      }
+    }
+
+    if (updatedRooms.length === 0) {
+      updatedRooms = [...ROOMS_DATA];
     }
 
     // 3. Process Amenities

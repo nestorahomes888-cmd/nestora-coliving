@@ -16,8 +16,11 @@ import { usePropertyData } from '../../context/PropertyContext';
 import { getGeneralEnquiryWhatsAppUrl } from '../../utils/whatsapp';
 
 export const FoodSection: React.FC = () => {
-  const { menuPhotoUrl } = usePropertyData();
+  const { menuPhotoUrl, amenities } = usePropertyData();
   const [photoZoomOpen, setPhotoZoomOpen] = useState(false);
+
+  const mealAmenity = amenities.find(a => a.name.toLowerCase().includes('meal') || a.name.toLowerCase().includes('food'));
+  const mealHeading = mealAmenity?.name || 'Homely Meals Everyday';
 
   const mealSlots = [
     {
@@ -59,7 +62,7 @@ export const FoodSection: React.FC = () => {
             Included in All Stays
           </span>
           <h2 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight mt-1">
-            4 Homely Meals Everyday
+            {mealHeading}
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
             Homestyle South & North Indian food cooked fresh in our hygienic kitchen using 100% RO purified water.

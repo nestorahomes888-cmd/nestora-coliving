@@ -9,7 +9,7 @@ import {
   Check, 
   AlertCircle 
 } from 'lucide-react';
-import { PROPERTY_DATA } from '../../data/property';
+import { usePropertyData } from '../../context/PropertyContext';
 import { 
   getContactFormWhatsAppUrl, 
   CALL_PHONE_NUMBER, 
@@ -17,10 +17,13 @@ import {
 } from '../../utils/whatsapp';
 
 export const ContactSection: React.FC = () => {
+  const { property, rooms } = usePropertyData();
+  const defaultRoomText = rooms[0] ? `${rooms[0].name} (${rooms[0].monthlyRent.formatted} / mo)` : '2 Sharing PG Room';
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    roomType: '2 Sharing PG Room (₹13,000 / mo)',
+    roomType: defaultRoomText,
     plan: 'Monthly PG Plan',
     moveInDate: '',
     message: ''
@@ -138,7 +141,7 @@ export const ContactSection: React.FC = () => {
                     Site Visit Timings
                   </h4>
                   <p className="text-sm font-bold text-stone-900 mt-0.5">
-                    {PROPERTY_DATA.workingHours.siteVisit}
+                    {property.workingHours.siteVisit}
                   </p>
                 </div>
               </div>
@@ -150,7 +153,7 @@ export const ContactSection: React.FC = () => {
                     Property Address
                   </h4>
                   <p className="text-xs text-stone-700 mt-0.5 font-medium leading-relaxed">
-                    {PROPERTY_DATA.address.full}
+                    {property.address.full}
                   </p>
                 </div>
               </div>
@@ -246,9 +249,12 @@ export const ContactSection: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, roomType: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl border border-stone-300 text-sm text-stone-900 bg-stone-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-stone-400"
                     >
-                      <option value="2 Sharing PG Room (₹13,000 / mo)">2 Sharing PG Room (₹13,000 / mo)</option>
-                      <option value="Daily Stay Plan (₹1,200 / day)">Daily Stay Plan (₹1,200 / day)</option>
-                      <option value="Private Single Room (₹22,000 / mo)">Private Single Room (₹22,000 / mo)</option>
+                      {rooms.map((r) => (
+                        <option key={r.id} value={`${r.name} (${r.monthlyRent.formatted} / mo)`}>
+                          {r.name} ({r.monthlyRent.formatted} / mo)
+                        </option>
+                      ))}
+                      <option value="Daily Stay (Flexible)">Daily Stay (Flexible)</option>
                     </select>
                   </div>
 

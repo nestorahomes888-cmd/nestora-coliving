@@ -1,9 +1,15 @@
 import React from 'react';
 import { Phone, MessageCircle, MapPin, Clock, ArrowUp, Check } from 'lucide-react';
-import { PROPERTY_DATA } from '../../data/property';
+import { usePropertyData } from '../../context/PropertyContext';
 import { getGeneralEnquiryWhatsAppUrl, getSiteVisitWhatsAppUrl, CALL_PHONE_NUMBER, DISPLAY_PHONE_NUMBER } from '../../utils/whatsapp';
 
 export const Footer: React.FC = () => {
+  const { property, rooms } = usePropertyData();
+  const room1 = rooms[0];
+  const rate1 = room1?.monthlyRent?.formatted || '₹13,000';
+  const name1 = room1?.name || '2-Sharing PG';
+  const dailyRate = room1?.dailyRent?.formatted || '₹1,200';
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -22,7 +28,7 @@ export const Footer: React.FC = () => {
                 Looking for a room in HSR Layout Sector 1?
               </h3>
               <p className="text-stone-400 text-xs sm:text-sm mt-1 max-w-xl">
-                2-Sharing PG at ₹13,000/month or Daily Stays at ₹1,200/day. Walk in today for an in-person tour.
+                {name1} at {rate1}/month or Daily Stays at {dailyRate}/day. Walk in today for an in-person tour.
               </p>
             </div>
 
@@ -91,10 +97,13 @@ export const Footer: React.FC = () => {
               Tariffs & Plans
             </h4>
             <ul className="space-y-2 text-xs text-stone-300">
-              <li><span className="text-white font-bold">2 Sharing PG:</span> ₹13,000 / month</li>
-              <li><span className="text-white font-bold">Daily Stay:</span> ₹1,200 / day</li>
-              <li><span className="text-white font-bold">Private Single:</span> ₹22,000 / month</li>
-              <li><span className="text-amber-400">✓ 4 Homely Meals Everyday</span></li>
+              {rooms.map(r => (
+                <li key={r.id}>
+                  <span className="text-white font-bold">{r.name}:</span> {r.monthlyRent.formatted} / month
+                </li>
+              ))}
+              <li><span className="text-white font-bold">Daily Stay:</span> {rooms[0]?.dailyRent.formatted || '₹1,200'} / day</li>
+              <li><span className="text-amber-400">✓ Homely Meals Everyday</span></li>
               <li><span className="text-amber-400">✓ 300 Mbps Wi-Fi & Housekeeping</span></li>
               <li><span className="text-amber-400">✓ 100% Power Backup</span></li>
             </ul>
@@ -108,23 +117,23 @@ export const Footer: React.FC = () => {
             <div className="space-y-2.5 text-xs text-stone-300">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>{PROPERTY_DATA.address.full}</span>
+                <span>{property.address.full}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-amber-400 shrink-0" />
-                <a href={`tel:${CALL_PHONE_NUMBER}`} className="hover:text-amber-300">
-                  {DISPLAY_PHONE_NUMBER}
+                <a href={`tel:${property.phone}`} className="hover:text-amber-300">
+                  {property.phoneDisplay}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-emerald-400 shrink-0" />
                 <a href={getGeneralEnquiryWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="hover:text-amber-300">
-                  WhatsApp: +91 70196 44004
+                  WhatsApp: +{property.whatsappNumber}
                 </a>
               </div>
               <div className="flex items-center gap-2 text-stone-400">
                 <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>{PROPERTY_DATA.workingHours.siteVisit}</span>
+                <span>{property.workingHours.siteVisit}</span>
               </div>
             </div>
           </div>
